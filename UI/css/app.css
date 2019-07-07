@@ -479,3 +479,74 @@ body {
   transition: 0.4s;
   box-shadow: 2px 4px 8px 0px rgba(153, 153, 153, 0.5);
 }
+
+.footer {
+  background: rgb(37, 40, 43);
+  color: rgba(255, 255, 255, 0.849);
+  height: 310px;
+  position: relative;
+  border-radius: 8px;
+  margin-left: 10px;
+
+}
+
+.footer .footer-bottom {
+  background: #303036;
+  color: #686868;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-top: 20px;
+}
+
+.footer .footer-content {
+  height: 300px;
+  display: flex;
+}
+
+
+.footer .footer-content .footer-section {
+  flex: 1;
+  border: 0.5px solid rgb(129, 129, 129);
+  padding: 25px;
+  color: white;
+}
+
+.footer .footer-content .footer-section h1 {
+  color: rgb(243, 243, 243);
+  font-family: "Great Vibes", cursive;
+  font-size: 20px;
+}
+
+.footer .footer-content .footer-section li {
+  margin: 10px;
+}
+
+.footer .footer-content .footer-section button {
+  color: white;
+}
+
+.footer .footer-content .footer-section input {
+  text-align: left;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 250px;
+  outline: none;
+}
+
+.footer .footer-content .footer-section textarea {
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #777;
+  font-family: sans-serif;
+  width: 250px;
+  height: 50px;
+  outline: none;
+}
