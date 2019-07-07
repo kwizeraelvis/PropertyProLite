@@ -12,10 +12,10 @@ export const getAllProperties = (req, res) => {
     const specificProperties = [];
     let isValid = false;
 
-    properties.forEach(property => {
+    properties.forEach((property) => {
       for (let i = 0; i < keys.length; i++) {
         if ((property[`${keys[i]}`].toString()) === req.query[`${keys[i]}`]) isValid = true;
-        else { isValid = false; break; };
+        else { isValid = false; break; }
       }
 
       if (isValid) specificProperties.push(property);
@@ -72,8 +72,7 @@ export const updateProperty = async (req, res) => {
 
   const keys = Object.keys(property);
   keys.forEach((key) => {
-    if (!['id', 'owner', 'status', 'created_on'].includes(key) && req.body[`${key}`]) 
-        property[`${key}`] = req.body[`${key}`];
+    if (!['id', 'owner', 'status', 'created_on'].includes(key) && req.body[`${key}`]) property[`${key}`] = req.body[`${key}`];
   });
 
   res.send(results(SUCCESS, property));
@@ -88,4 +87,15 @@ export const propertySold = async (req, res) => {
   res.send(results(SUCCESS, property));
 };
 
+export const deleteProperty = async (req, res) => {
+  let property = properties.find(p => p.id === parseInt(req.params.id, 10));
+  if (!property) return res.status(404).send(results(ERROR, 'Property with the given id does not exists'));
 
+  const index = properties.indexOf(property);
+  properties.splice(index, 1);
+
+  property = {};
+  property.message = 'Deleted property successfully';
+
+  res.send(results(SUCCESS, property));
+};
