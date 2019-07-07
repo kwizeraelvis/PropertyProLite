@@ -469,3 +469,13 @@ body {
   background: none;
   transition: 0.4s;
 }
+
+.buttons:hover {
+  color: white;
+  background: #FD297B;
+  cursor: pointer;
+  border: none;
+  transform: scale(1.05, 1.05);
+  transition: 0.4s;
+  box-shadow: 2px 4px 8px 0px rgba(153, 153, 153, 0.5);
+}
