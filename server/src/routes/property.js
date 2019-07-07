@@ -19,6 +19,6 @@ router.patch('/:id', auth, updateProperty);
 
 router.patch('/:id/sold', auth, propertySold);
 
-
+router.delete('/:id', [auth, admin], deleteProperty);
 
 export default router;
