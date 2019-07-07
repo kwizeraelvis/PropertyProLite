@@ -7,7 +7,12 @@ import cloudinary from '../startup/cloudinary';
 
 
 export const postProperty = async (req, res) => {
-  
+  if (req.files) {
+    const file = req.files.photo;
+    cloudinary.v2.uploader.upload(file.tempFilePath, (err, result) => {
+      (result) ? console.log(result) : console.log('error during upload is : ', err);
+    });
+  }
 
   const { error } = validate(req);
   if (error) return res.status(400).send(results(ERROR, error.details[0].message));
@@ -20,4 +25,5 @@ export const postProperty = async (req, res) => {
 
   properties.push(property);
 
+  res.send(results(SUCCESS, property));
 };
