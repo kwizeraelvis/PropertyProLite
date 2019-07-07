@@ -78,3 +78,9 @@ export const updateProperty = async (req, res) => {
 
   res.send(results(SUCCESS, property));
 };
+
+export const propertySold = async (req, res) => {
+  res.send('it is working');
+};
+
+
