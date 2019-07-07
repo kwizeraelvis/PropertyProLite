@@ -5,6 +5,17 @@ import { results, SUCCESS, ERROR } from '../helper/result';
 import cloudinary from '../startup/cloudinary';
 
 
+export const getAllProperties = (req, res) => {
+  
+
+  properties.forEach((property) => {
+    const { email, phoneNumber } = users.find(user => user.id === property.owner);
+    property.ownerEmail = email;
+    property.ownerPhoneNumber = phoneNumber;
+  });
+
+  (properties.length > 0) ? res.send(results(200, properties)) : res.status(404).send(results(404, 'No properties available'));
+};
 
 export const postProperty = async (req, res) => {
   if (req.files) {

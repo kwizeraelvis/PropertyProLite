@@ -8,7 +8,11 @@ import {
 
 const router = express.Router();
 
+
+router.get('/', getAllProperties);
+
 router.post('/', [auth], postProperty);
+
 
 
 export default router;
