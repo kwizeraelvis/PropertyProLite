@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node src/index.js",
     "build": "babel src -s -d dist",
-    "test": "mocha --require @babel/register 'src/test/**/*.js'",
+    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
     "coverage": "nyc --reporter=html --reporter=text mocha --require @babel/register 'src/test/**/*.js'",
     "showCoverage": "npm run coverage && nyc coverage/index.html"
   },
