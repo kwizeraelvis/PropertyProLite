@@ -398,3 +398,27 @@ body {
   transition: 0.5s;
   color: #353535;
 }
+
+.dropzone {
+  position: absolute;
+  align-items: center;
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+}
+
+.dropzone.dragover {
+  border: 2px dashed black;
+}
+
+.center {
+  position: absolute;
+  color: #ccc;
+  text-align: center;
+  margin-top: 85px;
+}

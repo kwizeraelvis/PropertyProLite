@@ -244,3 +244,20 @@ function getImage(imagePath) {
     const words = imagePath.split("/");
     return words[words.length - 1];
 }
+
+const dropzone = document.querySelector("#dropzone");
+dropzone.ondrop = e => {
+    e.preventDefault();
+    dropzone.className = "dropzone";
+    console.log(e.dataTransfer.files);
+};
+
+dropzone.ondragover = () => {
+    dropzone.className = "dropzone dragover";
+    return false;
+};
+
+dropzone.ondragleave = () => {
+    dropzone.className = "dropzone";
+    return false;
+};
