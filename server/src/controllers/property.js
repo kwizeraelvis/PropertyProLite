@@ -33,6 +33,10 @@ export const getAllProperties = (req, res) => {
   (properties.length > 0) ? res.send(results(200, properties)) : res.status(404).send(results(404, 'No properties available'));
 };
 
+export const getPropertyById = (req, res) => {
+  res.send('it is working as intended');
+};
+
 export const postProperty = async (req, res) => {
   if (req.files) {
     const file = req.files.photo;
