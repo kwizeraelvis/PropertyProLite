@@ -11,6 +11,8 @@ const router = express.Router();
 
 router.get('/', getAllProperties);
 
+router.get('/:id', getPropertyById);
+
 router.post('/', [auth], postProperty);
 
 

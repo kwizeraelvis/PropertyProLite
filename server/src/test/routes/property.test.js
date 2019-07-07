@@ -63,6 +63,39 @@ describe('api/property', () => {
     });
   });
 
+  describe('GET/:ID /', () => {
+    let user;
+    let property;
+
+    const exec = () => request(server)
+      .get('/api/v1/property/1');
+
+    beforeEach(() => {
+      users.length = 0;
+      properties.length = 0;
+
+      user = { id: 1, email: 'a', phoneNumber: '1' };
+      property = { id: 1, owner: 1 };
+
+      users.push(user);
+      properties.push(property);
+    });
+
+    it('should return 404 if property with given id is not found', async () => {
+      properties.length = 0;
+
+      const res = await exec();
+
+      expect(res.status).to.equal(404);
+    });
+
+    it('should return property with given id', async () => {
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data.id).to.equal(property.id);
+    });
+  });
 
   describe('POST /', () => {
     let token;
