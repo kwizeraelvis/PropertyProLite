@@ -274,22 +274,22 @@ function cleanProfileContents() {
 
 function updateProperties() {
     const properties = getProperties();
-    
+
     const username = document.querySelector("#profileName")
-    .textContent.toLowerCase().replace(" ", "");
-    
+        .textContent.toLowerCase().replace(" ", "");
+
     cleanProfileContents();
-    
+
     for (let property of properties) {
-        
+
         const propertyName = property.name.toLowerCase().replace(" ", "");
         if (propertyName.includes(username)) {
-            
+
             const profileTab = document.querySelector("#profile");
-            
+
             const singleImageContainer = document.createElement("div");
             const detailsContainer = document.createElement("div");
-            
+
             let saveBtn = document.createElement("button");
             let deleteBtn = document.createElement("button");
             let image = document.createElement("img");
@@ -298,28 +298,32 @@ function updateProperties() {
             let location = document.createElement("input");
             let contact = document.createElement("input");
             let details = document.createElement("input");
-            
+            let select = document.createElement("select");
+            let soldOption = document.createElement("option");
+            let availableOption = document.createElement("option");
+
             singleImageContainer.classList.add("card-single-property");
             singleImageContainer.style.width = "320px";
             singleImageContainer.style.height = "760px";
             singleImageContainer.style.marginLeft = "50px";
-            
+
             detailsContainer.style.marginTop = "330px";
             detailsContainer.style.marginLeft = "20px";
-            
+
             price.classList.add("input-field");
             status.classList.add("input-field");
             location.classList.add("input-field");
             contact.classList.add("input-field");
             details.classList.add("text-area");
-            
+
+            select.classList.add("select");
             saveBtn.classList.add("mini-buttons");
             deleteBtn.classList.add("mini-buttons");
-            
+
             image.classList.add("card-single-property-image");
             image.style.width = "320px";
             image.style.height = "320px";
-            
+
             image.src = property.image;
             price.placeholder = `Current Price: ${property.price}`;
             status.placeholder = `Current Status: ${property.status}`;
@@ -328,8 +332,20 @@ function updateProperties() {
             details.placeholder = `Details: : ${property.details}`;
             saveBtn.textContent = "Save";
             deleteBtn.textContent = "Delete";
-            
+            soldOption.textContent = "Sold";
+            availableOption.textContent = "Available";
 
+            if (property.status.toLowerCase() === "sold") {
+                select.appendChild(soldOption);
+                select.appendChild(availableOption);
+            }
+            else {
+                select.appendChild(availableOption);
+                select.appendChild(soldOption);
+            }
+
+
+            detailsContainer.appendChild(select);
             detailsContainer.appendChild(price);
             detailsContainer.appendChild(status);
             detailsContainer.appendChild(location);
