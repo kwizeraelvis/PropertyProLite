@@ -76,4 +76,5 @@ export const updateProperty = async (req, res) => {
         property[`${key}`] = req.body[`${key}`];
   });
 
+  res.send(results(SUCCESS, property));
 };
