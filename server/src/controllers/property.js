@@ -6,7 +6,14 @@ import cloudinary from '../startup/cloudinary';
 
 
 export const getAllProperties = (req, res) => {
-  res.send('it is really working');
+  
+
+  properties.forEach((property) => {
+    const { email, phoneNumber } = users.find(user => user.id === property.owner);
+    property.ownerEmail = email;
+    property.ownerPhoneNumber = phoneNumber;
+  });
+
 };
 
 export const postProperty = async (req, res) => {
