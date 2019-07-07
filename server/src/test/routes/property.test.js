@@ -208,5 +208,58 @@ describe('api/property', () => {
     });
   });
 
- 
+  describe('PATCH/:id/sold /', () => {
+    let token;
+    let property;
+    let user;
+
+    const exec = () => request(server)
+      .patch('/api/v1/property/1/sold')
+      .set('x-auth-token', token)
+      .send(property);
+
+    beforeEach(() => {
+      property = {
+        price: 1,
+        state: 'new state',
+        city: 'city',
+        address: 'address',
+        type: 'type',
+        image_url: 'image_url',
+      };
+
+      user = { id: 1, isAdmin: true };
+      token = generateAuthToken(user);
+
+      properties.length = 0;
+    });
+
+    it('should return 401 if user is not logged in', async () => {
+      token = '';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(401);
+    });
+
+    it('should return 404 if property with given id is not found', async () => {
+      property = {};
+
+      const res = await exec();
+
+      expect(res.status).to.equal(404);
+    });
+
+    it('should return property with sold status', async () => {
+      const property = { id: 1, status: 'available' };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(property.status).to.equal('sold');
+    });
+  });
+
+
 });

@@ -17,6 +17,8 @@ router.post('/', [auth], postProperty);
 
 router.patch('/:id', auth, updateProperty);
 
+router.patch('/:id/sold', auth, propertySold);
+
 
 
 export default router;
