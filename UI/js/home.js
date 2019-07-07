@@ -2,6 +2,9 @@
 // Open the discover tab by default when the page loads
 document.querySelector("#openByDefault").click();
 
+const myPropertiesBtn = document.querySelector("#myProperties");
+myPropertiesBtn.addEventListener("click", updateProperties);
+
 function openTab(headerName, headerClicked, backgroundColor, textColor) {
 
     setTabHeaders(headerName, headerClicked, backgroundColor, textColor);
@@ -261,3 +264,80 @@ dropzone.ondragleave = () => {
     dropzone.className = "dropzone";
     return false;
 };
+
+function cleanProfileContents() {
+    const profile = document.querySelector("#profile");
+    while (profile.firstChild) {
+        profile.removeChild(profile.firstChild);
+    }
+}
+
+function updateProperties() {
+    const properties = getProperties();
+    
+    const username = document.querySelector("#profileName")
+    .textContent.toLowerCase().replace(" ", "");
+    
+    cleanProfileContents();
+    
+    for (let property of properties) {
+        
+        const propertyName = property.name.toLowerCase().replace(" ", "");
+        if (propertyName.includes(username)) {
+            
+            const profileTab = document.querySelector("#profile");
+            
+            const singleImageContainer = document.createElement("div");
+            const detailsContainer = document.createElement("div");
+            
+            let saveBtn = document.createElement("button");
+            let image = document.createElement("img");
+            let price = document.createElement("input");
+            let status = document.createElement("input");
+            let location = document.createElement("input");
+            let contact = document.createElement("input");
+            let details = document.createElement("input");
+            
+            singleImageContainer.classList.add("card-single-property");
+            singleImageContainer.style.width = "320px";
+            singleImageContainer.style.height = "760px";
+            singleImageContainer.style.marginLeft = "50px";
+            
+            detailsContainer.style.marginTop = "330px";
+            detailsContainer.style.marginLeft = "20px";
+            
+            price.classList.add("input-field");
+            status.classList.add("input-field");
+            location.classList.add("input-field");
+            contact.classList.add("input-field");
+            details.classList.add("text-area");
+            
+            saveBtn.classList.add("mini-buttons");
+            
+            image.classList.add("card-single-property-image");
+            image.style.width = "320px";
+            image.style.height = "320px";
+            
+            image.src = property.image;
+            price.placeholder = `Current Price: ${property.price}`;
+            status.placeholder = `Current Status: ${property.status}`;
+            location.placeholder = `Current Location: ${property.location}`;
+            contact.placeholder = `Phone number: : ${property.phone}`;
+            details.placeholder = `Details: : ${property.details}`;
+            saveBtn.textContent = "Save";
+            
+
+            detailsContainer.appendChild(price);
+            detailsContainer.appendChild(status);
+            detailsContainer.appendChild(location);
+            detailsContainer.appendChild(contact);
+            detailsContainer.appendChild(details);
+            detailsContainer.appendChild(saveBtn);
+
+            singleImageContainer.appendChild(image);
+            singleImageContainer.appendChild(detailsContainer);
+
+            profileTab.appendChild(singleImageContainer);
+        }
+    }
+}

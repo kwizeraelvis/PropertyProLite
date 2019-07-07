@@ -440,3 +440,42 @@ body {
   height: 100px;
   outline: none;
 }
+
+.image-profile {
+  width: 140px;
+  height: 140px;
+  border: none;
+  margin-left: 140px;
+  margin-top: 40px;
+  border-radius: 50%
+}
+
+#profileName {
+  text-align: center;
+}
+
+#profileEmail {
+  text-align: center;
+}
+
+.buttons {
+  width: 200px;
+  height: 30px;
+  border: 1px solid #0082a7;
+  border-radius: 20px;
+  margin-left: 120px;
+  margin-top: 20px;
+  outline: none;
+  background: none;
+  transition: 0.4s;
+}
+
+.buttons:hover {
+  color: white;
+  background: #FD297B;
+  cursor: pointer;
+  border: none;
+  transform: scale(1.05, 1.05);
+  transition: 0.4s;
+  box-shadow: 2px 4px 8px 0px rgba(153, 153, 153, 0.5);
+}
