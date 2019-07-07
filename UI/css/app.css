@@ -449,3 +449,23 @@ body {
   margin-top: 40px;
   border-radius: 50%
 }
+
+#profileName {
+  text-align: center;
+}
+
+#profileEmail {
+  text-align: center;
+}
+
+.buttons {
+  width: 200px;
+  height: 30px;
+  border: 1px solid #0082a7;
+  border-radius: 20px;
+  margin-left: 120px;
+  margin-top: 20px;
+  outline: none;
+  background: none;
+  transition: 0.4s;
+}
