@@ -8,6 +8,61 @@ chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('api/property', () => {
+  describe('GET /', () => {
+    let user;
+    let property;
+    let stringQuery;
+
+    const exec = () => request(server)
+      .get(`/api/v1/property${stringQuery}`);
+
+    beforeEach(() => {
+      users.length = 0;
+      properties.length = 0;
+
+      user = { id: 1, email: 'a', phoneNumber: '1' };
+      property = { id: 1, owner: 1, type: 'type', state: 'state'};
+
+      users.push(user);
+      properties.push(property);
+    });
+
+    it('should return 200 with a property of a given type it it exists', async () => {
+      stringQuery = '?type=type&&state=state';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0]).to.deep.equal(property);
+    });
+
+    it('should return 404 if property of a given type does not exists', async () => {
+      stringQuery = '?type=new';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(404);
+    });
+
+    it('should return all properties ', async () => {
+      stringQuery = '';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return 404 if no properties founded ', async () => {
+      stringQuery = '';
+      properties.length = 0;
+
+      const res = await exec();
+
+      expect(res.status).to.equal(404);
+    });
+  });
+
 
   describe('POST /', () => {
     let token;
