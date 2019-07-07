@@ -6,7 +6,23 @@ import cloudinary from '../startup/cloudinary';
 
 
 export const getAllProperties = (req, res) => {
-  
+  const keys = Object.keys(req.query);
+
+  if (keys.length > 0) {
+    const specificProperties = [];
+    let isValid = false;
+
+    properties.forEach(property => {
+      for (let i = 0; i < keys.length; i++) {
+        if ((property[`${keys[i]}`].toString()) === req.query[`${keys[i]}`]) isValid = true;
+        else { isValid = false; break; };
+      }
+
+      if (isValid) specificProperties.push(property);
+    });
+
+    return (specificProperties.length > 0) ? res.status(200).send(results(200, specificProperties)) : res.status(404).send(results(404, 'Properties with the given type cannot be found'));
+  }
 
   properties.forEach((property) => {
     const { email, phoneNumber } = users.find(user => user.id === property.owner);
