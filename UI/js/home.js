@@ -2,13 +2,11 @@
 // Open the discover tab by default when the page loads
 document.querySelector("#openByDefault").click();
 
-const myPropertiesBtn = document.querySelector("#myProperties");
-myPropertiesBtn.addEventListener("click", updateProperties);
-
 function openTab(headerName, headerClicked, backgroundColor, textColor) {
 
     setTabHeaders(headerName, headerClicked, backgroundColor, textColor);
     populateDiscoverFeed();
+    populateProfileFeed();
 }
 
 function setTabHeaders(headerName, headerClicked, backgroundColor, textColor) {
@@ -83,6 +81,54 @@ function populateDiscoverFeed() {
 
         discover.appendChild(imageContainer);
     }
+}
+
+function populateProfileFeed() {
+    const personalInformation = {
+        name: "Amily Kadyl",
+        email: "amilykassim02@gmail.com",
+        image: "../assets/steve_jobs_black_and_white.jpg"
+    }
+
+    cleanProfileContents();
+
+    const profileTab = document.querySelector("#profile");
+    const cardContainer = document.createElement("div");
+    const profileImage = document.createElement("img");
+    const profileName = document.createElement("h4");
+    const profileEmail = document.createElement("h4");
+    const myPropertiesBtn = document.createElement("button");
+    const changeProfileBtn = document.createElement("button");
+    const resetPasswordBtn = document.createElement("button");
+
+    cardContainer.classList.add("card");
+    profileImage.classList.add("image-profile");
+    profileName.id = "profileName";
+    profileEmail.id = "profileEmail";
+    myPropertiesBtn.id = "myProperties";
+    myPropertiesBtn.classList.add("buttons");
+    changeProfileBtn.classList.add("buttons");
+    resetPasswordBtn.classList.add("buttons");
+
+    profileImage.src = personalInformation.image;
+    profileName.textContent = personalInformation.name;
+    profileEmail.textContent = personalInformation.email;
+    myPropertiesBtn.textContent = "Update My Properties";
+    changeProfileBtn.textContent = "Change Profile";
+    resetPasswordBtn.textContent = "Reset Password";
+
+
+    cardContainer.appendChild(profileImage);
+    cardContainer.appendChild(profileName);
+    cardContainer.appendChild(profileEmail);
+    cardContainer.appendChild(myPropertiesBtn);
+    cardContainer.appendChild(changeProfileBtn);
+    cardContainer.appendChild(resetPasswordBtn);
+
+    profileTab.appendChild(cardContainer);
+
+    myPropertiesBtn.addEventListener("click", updateProperties);
+
 }
 
 function getProperties() {
@@ -366,5 +412,5 @@ const logoutBtn = document.querySelector(".log-out");
 logoutBtn.addEventListener("click", logOut);
 
 function logOut() {
-  window.location.href = "../index.html";
+    window.location.href = "../index.html";
 }
