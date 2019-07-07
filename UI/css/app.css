@@ -525,3 +525,28 @@ body {
   margin: 10px;
 }
 
+.footer .footer-content .footer-section button {
+  color: white;
+}
+
+.footer .footer-content .footer-section input {
+  text-align: left;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  width: 250px;
+  outline: none;
+}
+
+.footer .footer-content .footer-section textarea {
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding-top: 10px;
+  padding-left: 10px;
+  color: #777;
+  font-family: sans-serif;
+  width: 250px;
+  height: 50px;
+  outline: none;
+}
