@@ -19,7 +19,9 @@ const signup = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 
+  users.push(user);
 
+  res.header('x-auth-token', token).send(results(SUCCESS, user));
 };
 
 export default signup;
