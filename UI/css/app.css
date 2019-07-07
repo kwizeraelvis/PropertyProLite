@@ -479,3 +479,32 @@ body {
   transition: 0.4s;
   box-shadow: 2px 4px 8px 0px rgba(153, 153, 153, 0.5);
 }
+
+.footer {
+  background: rgb(37, 40, 43);
+  color: rgba(255, 255, 255, 0.849);
+  height: 310px;
+  position: relative;
+  border-radius: 8px;
+  margin-left: 10px;
+
+}
+
+.footer .footer-bottom {
+  background: #303036;
+  color: #686868;
+  height: 30px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  padding-top: 20px;
+}
+
+.footer .footer-content {
+  height: 300px;
+  display: flex;
+}
+
+
