@@ -97,5 +97,5 @@ export const deleteProperty = async (req, res) => {
   property = {};
   property.message = 'Deleted property successfully';
 
-  
+  res.send(results(SUCCESS, property));
 };
