@@ -23,3 +23,16 @@ body {
     margin-top: 100px;
   }
   
+  .login-title {
+    position: absolute;
+    margin-left: 80px;
+    margin-top: 50px;
+    color: rgb(68, 68, 68);
+  }
+  
+  .login-mini-title {
+    position: absolute;
+    margin-top: 98px;
+    margin-left: 120px;
+    color: rgb(68, 68, 68); 
+  }
