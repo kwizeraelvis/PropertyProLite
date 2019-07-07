@@ -85,7 +85,7 @@ export const propertySold = async (req, res) => {
 
   property.status = 'sold';
 
-  
+  res.send(results(SUCCESS, property));
 };
 
 
