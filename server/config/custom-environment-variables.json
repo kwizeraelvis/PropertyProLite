@@ -1,3 +1,6 @@
 {
-    "jwtPrivateKey": "pro_lite_jwtPrivateKey"
+    "jwtPrivateKey": "pro_lite_jwtPrivateKey",
+    "cloud_name": "pro_lite_cloud_name",
+    "api_key": "pro_lite_api_key",
+    "api_secret": "pro_lite_api_secret"
 }
