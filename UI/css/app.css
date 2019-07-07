@@ -7,6 +7,7 @@ body {
 
 .card {
   position: relative;
+  background-color: white;
   width: 420px;
   height: 650px;
   margin-top: 10px;
@@ -14,6 +15,15 @@ body {
   box-shadow: 0px 5px 15px 0px rgb(153, 153, 153, 0.5);
   border-radius: 8px;
   margin-bottom: 80px;
+}
+
+.card-login-background {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: url('../assets/image11.jpg') no-repeat fixed;
 }
 
 .card.login {
