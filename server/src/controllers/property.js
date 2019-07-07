@@ -5,6 +5,9 @@ import { results, SUCCESS, ERROR } from '../helper/result';
 import cloudinary from '../startup/cloudinary';
 
 
+export const getAllProperties = (req, res) => {
+  res.send('it is really working');
+};
 
 export const postProperty = async (req, res) => {
   if (req.files) {
