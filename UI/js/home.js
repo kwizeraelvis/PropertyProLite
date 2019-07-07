@@ -291,6 +291,7 @@ function updateProperties() {
             const detailsContainer = document.createElement("div");
             
             let saveBtn = document.createElement("button");
+            let deleteBtn = document.createElement("button");
             let image = document.createElement("img");
             let price = document.createElement("input");
             let status = document.createElement("input");
@@ -313,6 +314,7 @@ function updateProperties() {
             details.classList.add("text-area");
             
             saveBtn.classList.add("mini-buttons");
+            deleteBtn.classList.add("mini-buttons");
             
             image.classList.add("card-single-property-image");
             image.style.width = "320px";
@@ -325,6 +327,7 @@ function updateProperties() {
             contact.placeholder = `Phone number: : ${property.phone}`;
             details.placeholder = `Details: : ${property.details}`;
             saveBtn.textContent = "Save";
+            deleteBtn.textContent = "Delete";
             
 
             detailsContainer.appendChild(price);
@@ -333,6 +336,7 @@ function updateProperties() {
             detailsContainer.appendChild(contact);
             detailsContainer.appendChild(details);
             detailsContainer.appendChild(saveBtn);
+            detailsContainer.appendChild(deleteBtn);
 
             singleImageContainer.appendChild(image);
             singleImageContainer.appendChild(detailsContainer);
