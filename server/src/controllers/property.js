@@ -88,5 +88,14 @@ export const propertySold = async (req, res) => {
 };
 
 export const deleteProperty = async (req, res) => {
-  res.send('it is working perfectly');
+  let property = properties.find(p => p.id === parseInt(req.params.id, 10));
+  if (!property) return res.status(404).send(results(ERROR, 'Property with the given id does not exists'));
+
+  const index = properties.indexOf(property);
+  properties.splice(index, 1);
+
+  property = {};
+  property.message = 'Deleted property successfully';
+
+  
 };
