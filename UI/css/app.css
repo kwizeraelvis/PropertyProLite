@@ -53,6 +53,11 @@ body {
   outline: none;
 }
 
+.input-field-container {
+  padding-top: 270px;
+  margin-left: 60px;
+}
+
 .mini-buttons {
   width: 120px;
   height: 30px;
@@ -421,4 +426,17 @@ body {
   color: #ccc;
   text-align: center;
   margin-top: 85px;
+}
+
+.text-area {
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding-top: 10px;
+  padding-left: 20px;
+  color: #777;
+  font-family: sans-serif;
+  width: 250px;
+  height: 100px;
+  outline: none;
 }
