@@ -14,6 +14,7 @@ export const getAllProperties = (req, res) => {
     property.ownerPhoneNumber = phoneNumber;
   });
 
+  (properties.length > 0) ? res.send(results(200, properties)) : res.status(404).send(results(404, 'No properties available'));
 };
 
 export const postProperty = async (req, res) => {
