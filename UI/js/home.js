@@ -44,7 +44,7 @@ function populateDiscoverFeed() {
     const properties = getProperties();
 
     const discover = document.querySelector("#discover");
-    // discover.addEventListener("click", viewProperty);
+    discover.addEventListener("click", viewProperty);
 
     cleanDiscoverContents();
 
@@ -180,4 +180,67 @@ function cleanDiscoverContents() {
     while (discover.firstChild) {
         discover.removeChild(discover.firstChild);
     }
+}
+
+// view a single property when it's been clicked
+function viewProperty(event) {
+
+    const imagePath = event.target.src;
+    const properties = getProperties();
+
+    cleanDiscoverContents();
+
+    for (let property of properties)
+        (property.image.includes(getImage(imagePath)) ? populateSingleProperty(property) : "Failed")
+
+
+}
+
+function populateSingleProperty(property) {
+    const discoverTab = document.querySelector("#discover");
+    const singleImageContainer = document.createElement("div");
+    const detailsContainer = document.createElement("div");
+
+    let image = document.createElement("img");
+    let name = document.createElement("h4");
+    let price = document.createElement("h4");
+    let status = document.createElement("h4");
+    let location = document.createElement("h4");
+    let contact = document.createElement("h4");
+    let details = document.createElement("span");
+
+    singleImageContainer.classList.add("card-single-property");
+    detailsContainer.classList.add("card-single-property-info");
+    image.classList.add("card-single-property-image");
+
+    singleImageContainer.style.marginLeft = "20px";
+
+
+    image.src = property.image;
+    name.textContent = `Publisher name: ${property.name}`;
+    price.textContent = `Price: ${property.price}`;
+    status.textContent = `Status: ${property.status}`;
+    location.textContent = `Location: ${property.location}`;
+    contact.textContent = `Phone number: : ${property.phone}`;
+    details.textContent = `Details: ${property.details}`;
+
+    detailsContainer.appendChild(name);
+    detailsContainer.appendChild(price);
+    detailsContainer.appendChild(status);
+    detailsContainer.appendChild(location);
+    detailsContainer.appendChild(contact);
+    detailsContainer.appendChild(details);
+
+    singleImageContainer.appendChild(image);
+    singleImageContainer.appendChild(detailsContainer);
+
+    discoverTab.appendChild(singleImageContainer);
+
+    const houseCategory = document.querySelector("#category");
+    houseCategory.style.display = "none";
+}
+
+function getImage(imagePath) {
+    const words = imagePath.split("/");
+    return words[words.length - 1];
 }
