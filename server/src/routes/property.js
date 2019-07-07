@@ -15,6 +15,8 @@ router.get('/:id', getPropertyById);
 
 router.post('/', [auth], postProperty);
 
+router.patch('/:id', auth, updateProperty);
+
 
 
 export default router;

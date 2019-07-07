@@ -65,3 +65,16 @@ export const postProperty = async (req, res) => {
 
   res.send(results(SUCCESS, property));
 };
+
+export const updateProperty = async (req, res) => {
+  const property = properties.find(p => p.id === parseInt(req.params.id, 10));
+  if (!property) return res.status(404).send(results(ERROR, 'Property with the given id does not exists'));
+
+  const keys = Object.keys(property);
+  keys.forEach((key) => {
+    if (!['id', 'owner', 'status', 'created_on'].includes(key) && req.body[`${key}`]) 
+        property[`${key}`] = req.body[`${key}`];
+  });
+
+  res.send(results(SUCCESS, property));
+};
