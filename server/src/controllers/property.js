@@ -65,3 +65,7 @@ export const postProperty = async (req, res) => {
 
   res.send(results(SUCCESS, property));
 };
+
+export const updateProperty = async (req, res) => {
+ res.send('update property is working');
+};
