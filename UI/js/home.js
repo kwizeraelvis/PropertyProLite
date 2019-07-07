@@ -361,3 +361,10 @@ function updateProperties() {
         }
     }
 }
+
+const logoutBtn = document.querySelector(".log-out");
+logoutBtn.addEventListener("click", logOut);
+
+function logOut() {
+  window.location.href = "../index.html";
+}
