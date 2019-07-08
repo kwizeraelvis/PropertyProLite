@@ -494,10 +494,12 @@ body {
   background: rgb(37, 40, 43);
   color: rgba(255, 255, 255, 0.849);
   height: 310px;
-  position: relative;
-  border-radius: 8px;
-  margin-left: 10px;
-
+  position: absolute;
+  margin-top: 1050px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .footer .footer-bottom {
