@@ -22,7 +22,7 @@ function setTabHeaders(headerName, headerClicked, backgroundColor, textColor) {
     headerClicked.style.backgroundColor = backgroundColor;
     headerClicked.style.color = textColor;
     headerClicked.style.marginTop = "67px";
-    headerClicked.style.transition = "0.6s";
+    headerClicked.style.transition = "0.2s";
     headerClicked.style.borderRadius = "10px 10px 0 0";
     headerClicked.style.border = "none";
 
