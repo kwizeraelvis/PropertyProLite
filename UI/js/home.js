@@ -22,7 +22,7 @@ function setTabHeaders(headerName, headerClicked, backgroundColor, textColor) {
     headerClicked.style.backgroundColor = backgroundColor;
     headerClicked.style.color = textColor;
     headerClicked.style.marginTop = "67px";
-    headerClicked.style.transition = "0.6s";
+    headerClicked.style.transition = "0.2s";
     headerClicked.style.borderRadius = "10px 10px 0 0";
     headerClicked.style.border = "none";
 
@@ -262,7 +262,7 @@ function populateSingleProperty(property) {
     detailsContainer.classList.add("card-single-property-info");
     image.classList.add("card-single-property-image");
 
-    singleImageContainer.style.marginLeft = "20px";
+    singleImageContainer.style.marginLeft = "400px";
 
 
     image.src = property.image;
@@ -351,7 +351,7 @@ function updateProperties() {
             singleImageContainer.classList.add("card-single-property");
             singleImageContainer.style.width = "320px";
             singleImageContainer.style.height = "760px";
-            singleImageContainer.style.marginLeft = "50px";
+            singleImageContainer.style.marginLeft = "90px";
 
             detailsContainer.style.marginTop = "330px";
             detailsContainer.style.marginLeft = "20px";

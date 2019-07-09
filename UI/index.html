@@ -6,27 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Log in</title>
-    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/landing_page.css">
 </head>
 
 <body>
 
     <div class="card-login-background">
-        <div class="card login">
-            <h1 class="login-title">Property Pro Lite!</h1>
-            <h4 class="login-mini-title">Where Magic Happens</h4>
-            <div class="login-field-container">
-                <input class="input-field" type="text" placeholder="Email...">
-                <input class="input-field" type="text" placeholder="Password...">
-                <div>
-                    <button id="signup" class="mini-buttons">Sign Up</button>
-                    <button id="login" class="mini-buttons">Login</button>
+
+        <!-- navigation bar contents -->
+        <div class="navbar">
+            <div>
+                <span class="title-ball"></span>
+                <span class="title-first">Property</span>
+                <span class="title-second">Pro</span>
+                <span class="title-third">Lite</span>
+            </div>
+            <div class="sign-up sign-up-big-margin">
+                <button id="login-navbar">LOG IN</button>
+            </div>
+            <div class="sign-up">
+                <button id="signup-navbar">SIGN UP</button>
+            </div>
+        </div>
+        <!-- navigation bar contents -->
+
+        <div class="landing-page-container">
+            <h1>Welcome to Property Pro Lite <br>A platform of selling and
+                renting beautiful houses</h1>
+
+
+            <div class="card-list">
+                <img class="card-list-image" src="./assets//image6.jpg" alt="house for sale">
+                <div class="info">
+                    <span style="color: white">Price: 125 Million</span>
+                </div>
+            </div>
+            <div class="card-list">
+                <img class="card-list-image" src="./assets//image4.jpg" alt="house for sale">
+                <div class="info">
+                    <span style="color: white">Price: 154 Million</span>
+                </div>
+            </div>
+            <div class="card-list">
+                <img class="card-list-image" src="./assets//image1.jpg" alt="house for sale">
+                <div class="info">
+                    <span style="color: white">Price: 92 Million</span>
                 </div>
             </div>
         </div>
+
+        <!-- footer section -->
+        <div class="footer footer-login">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h1>Property-Pro-Lite</h1>
+                    <h5>At Property Pro Lite we believe that decentralizing the power of purchasing
+                        and selling great quality products is a human right, so our mission is to make it
+                        a reality. But we can't, unless you do.
+                    </h5>
+
+                </div>
+                <div class="footer-section">
+                    <h4>Quick links</h4>
+                    <li>Help</li>
+                    <li>Our Mission</li>
+                    <li>Privacy and Policy</li>
+                    <li>Terms and condition</li>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <div>
+                        <input type="text" placeholder="Your email...">
+                        <textarea name="message" id="" cols="30" rows="10" placeholder="Your message..."></textarea>
+                        <button class="mini-buttons">Send</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; Property-Pro-Lite.com | Designed by Amily Kassim</div>
+        </div>
+        <!-- footer section -->
     </div>
 
-    <script src="js/login.js"></script>
+    <script src="js/landing_page.js"></script>
 
 </body>
 
