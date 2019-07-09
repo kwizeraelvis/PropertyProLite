@@ -262,7 +262,7 @@ function populateSingleProperty(property) {
     detailsContainer.classList.add("card-single-property-info");
     image.classList.add("card-single-property-image");
 
-    singleImageContainer.style.marginLeft = "20px";
+    singleImageContainer.style.marginLeft = "400px";
 
 
     image.src = property.image;
@@ -351,7 +351,7 @@ function updateProperties() {
             singleImageContainer.classList.add("card-single-property");
             singleImageContainer.style.width = "320px";
             singleImageContainer.style.height = "760px";
-            singleImageContainer.style.marginLeft = "50px";
+            singleImageContainer.style.marginLeft = "90px";
 
             detailsContainer.style.marginTop = "330px";
             detailsContainer.style.marginLeft = "20px";
