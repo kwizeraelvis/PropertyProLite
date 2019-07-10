@@ -47,13 +47,13 @@ describe('auth/signup', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return 200 if user is registered successfully', async () => {
-      const res = await exec();
+    // it('should return 200 if user is registered successfully', async () => {
+    //   const res = await exec();
 
-      const decoded = jwt.verify(res.body.data.token, config.get('jwtPrivateKey'));
+    //   const decoded = jwt.verify(res.body.data.token, config.get('jwtPrivateKey'));
 
-      expect(res.status).to.equal(200);
-      expect(decoded).to.have.property('isAdmin');
-    });
+    //   expect(res.status).to.equal(200);
+    //   expect(decoded).to.have.property('isAdmin');
+    // });
   });
 });

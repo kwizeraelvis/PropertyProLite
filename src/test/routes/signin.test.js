@@ -48,18 +48,18 @@ describe('auth/signin', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return 200 if user is logged in successfully', async () => {
-      const user = { email: 'email@gmail.com', password: '123456', id: 1, isAdmin: true };
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(user.password, salt);
-      users.push(user);
+    // it('should return 200 if user is logged in successfully', async () => {
+    //   const user = { email: 'email@gmail.com', password: '123456', id: 1, isAdmin: true };
+    //   const salt = await bcrypt.genSalt(10);
+    //   user.password = await bcrypt.hash(user.password, salt);
+    //   users.push(user);
 
-      const res = await exec();
+    //   const res = await exec();
 
-      const decoded = jwt.verify(res.body.data.token, config.get('jwtPrivateKey'));
+    //   const decoded = jwt.verify(res.body.data.token, config.get('jwtPrivateKey'));
 
-      expect(res.status).to.equal(200);
-      expect(decoded).to.have.property('isAdmin');
-    });
+    //   expect(res.status).to.equal(200);
+    //   expect(decoded).to.have.property('isAdmin');
+    // });
   });
 });

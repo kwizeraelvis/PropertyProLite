@@ -20,7 +20,8 @@ function validate(req) {
 }
 
 function generateAuthToken(user) {
-  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, config.get('jwtPrivateKey'));
+  // return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, config.get('jwtPrivateKey'));
+  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.JWT_PRIVATE_KEY );
 }
 
 export { users, validate, generateAuthToken };
