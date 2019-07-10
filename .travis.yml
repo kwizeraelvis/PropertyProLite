@@ -4,5 +4,8 @@ branches:
   only:
     - develop
 install: npm install
+cache:
+  directories:
+    - "node_modules"
 scripts: npm test
-after_script: npm run coverage
+after_success: npm run coverage
