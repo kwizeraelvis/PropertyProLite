@@ -12,12 +12,25 @@ export const validateSignup = (req) => {
     first_name: Joi.string().required().min(1).max(255),
     last_name: Joi.string().required().min(1).max(255),
     password: Joi.string().required().min(6).max(255),
-    phoneNumber: Joi.string().required().min(1).max(25),
+    phoneNumber: Joi.number().required().min(1).max(25),
     address: Joi.string().required().min(1).max(255),
     isAdmin: Joi.boolean(),
   };
 
   return Joi.validate(req.body, schema);
+}
+
+export const strictValidate = (req) => {
+  const regex = /^[A-Za-z0-9 ]+$/;
+
+  let keys = Object.keys(req.body);
+  
+  for(let key of keys) {
+    if (!['email', 'password', 'phoneNumber', 'isAdmin'].includes(key)) {
+      if(!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
+      if(!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+    }
+  }
 }
 
 export const validateLogin = (req) => {

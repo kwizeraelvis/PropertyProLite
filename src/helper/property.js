@@ -16,6 +16,19 @@ export const validate = (req) => {
   return Joi.validate(req.body, schema);
 }
 
+export const strictValidate = (req) => {
+  const regex = /^[A-Za-z0-9 ]+$/;
+
+  let keys = Object.keys(req.body);
+  
+  for(let key of keys) {
+    if (!['price'].includes(key)) {
+      if(!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
+      if(!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+    }
+  }
+}
+
 export const saveProperty = (req) => {
   const property = _.pick(req.body, ['price', 'state', 'city', 'address', 'type', 'image_url']);
   property.id = properties.length + 1;

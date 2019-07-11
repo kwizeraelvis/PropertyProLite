@@ -1,11 +1,13 @@
-import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { results, SUCCESS, ERROR } from '../helper/result';
-import { users, validateSignup, generateAuthToken, validateEmail, save, validatePassword, hashPassword } from '../helper/user';
+import { validateSignup, validateEmail, strictValidate, save } from '../helper/user';
 
 const signup = async (req, res) => {
-  const { error } = validateSignup(req);
+  let { error } = validateSignup(req);
   if (error) return res.status(400).send(results(400, ERROR, error.details[0].message));
+
+  error = strictValidate(req);
+  if (error) return res.status(400).send(results(400, ERROR, error)); 
 
   let user = validateEmail(req);
   if (user) return res.status(400).send(results(400, ERROR, 'user already registered.'));
