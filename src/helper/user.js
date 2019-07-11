@@ -1,5 +1,7 @@
 import Joi from 'joi';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import _ from 'lodash';
 
 const users = [];
 
@@ -33,6 +35,31 @@ export const generateAuthToken = (user) => {
 
 export const validateEmail = (req) => {
   const user = users.find(user => user.email === req.body.email);
+
+  return user;
+}
+
+export const validatePassword = async (req, user) => {
+  return await bcrypt.compare(req.body.password, user.password);
+}
+
+export const hashPassword = async (user) => {
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(user.password, salt);
+}
+
+export const save = async (req) => {
+  let user = _.pick(req.body, ['first_name', 'last_name', 'email', 'password', 'phoneNumber', 'address', 'isAdmin']);
+  user.id = users.length + 1;
+
+  const token = generateAuthToken(user);
+  user.token = token;
+  
+  user.password = await hashPassword(user);
+
+  users.push(user);
+
+  user = _.pick(user, ['token', 'first_name', 'last_name', 'email', 'phoneNumber', 'address', 'isAdmin']);
 
   return user;
 }

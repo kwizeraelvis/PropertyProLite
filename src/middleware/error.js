@@ -5,5 +5,5 @@ import { results, ERROR } from '../helper/result';
 export default (err, req, res, next) => {
   winston.error(err.message);
 
-  res.status(500).send(results(ERROR, err.message));
+  res.status(500).send(results(500, ERROR, err.message));
 };

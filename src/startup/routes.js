@@ -7,6 +7,7 @@ import error from '../middleware/error';
 
 export default (app) => {
   app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
   app.use(fileupload({ useTempFiles: true }));
   app.use('/api/v1/auth/signup', signup);
   app.use('/api/v1/auth/signin', signin);
