@@ -5,10 +5,10 @@ import { results, SUCCESS, ERROR } from '../helper/result';
 
 const signup = async (req, res) => {
   const { error } = validateSignup(req);
-  if (error) return res.status(400).send(results(ERROR, error.details[0].message));
+  if (error) return res.status(400).send(results(400, ERROR, error.details[0].message));
 
   let user = users.find(user => user.email === req.body.email);
-  if (user) return res.status(400).send(results(ERROR, 'user already registered.'));
+  if (user) return res.status(400).send(results(400, ERROR, 'user already registered.'));
 
   user = _.pick(req.body, ['first_name', 'last_name', 'email', 'password', 'phoneNumber', 'address', 'isAdmin']);
   user.id = users.length + 1;
@@ -21,7 +21,7 @@ const signup = async (req, res) => {
 
   users.push(user);
 
-  res.header('x-auth-token', token).send(results(SUCCESS, user));
+  res.header('x-auth-token', token).send(results(200, SUCCESS, user));
 };
 
 export default signup;
