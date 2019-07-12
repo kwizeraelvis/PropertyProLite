@@ -1,5 +1,5 @@
-import { strictValidate } from '../helper/user';
-import { results, ERROR } from '../helper/result';
+import { strictValidate } from '../../helper/user';
+import { results, ERROR } from '../../helper/result';
 
 export default (req, res, next) => {
     const error = strictValidate(req);

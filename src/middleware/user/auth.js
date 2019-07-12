@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { results, SUCCESS, ERROR } from '../helper/result';
+import { results, ERROR } from '../../helper/result';
 
 
 export default (req, res, next) => {

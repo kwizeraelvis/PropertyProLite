@@ -1,5 +1,5 @@
-import { users } from '../helper/user';
-import { results, ERROR } from '../helper/result';
+import { users } from '../../helper/user';
+import { results, ERROR } from '../../helper/result';
 
 export default (req, res, next) => {
     const user = users.find(user => user.email === req.body.email);

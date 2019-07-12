@@ -20,11 +20,11 @@ export const strictValidate = (req) => {
   const regex = /^[A-Za-z0-9 ]+$/;
 
   let keys = Object.keys(req.body);
-  
-  for(let key of keys) {
+
+  for (let key of keys) {
     if (!['price'].includes(key)) {
-      if(!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
-      if(!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+      if (!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
+      if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
     }
   }
 }

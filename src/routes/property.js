@@ -1,24 +1,29 @@
 import express from 'express';
-import auth from '../middleware/auth';
-import admin from '../middleware/admin';
+import auth from '../middleware/user/auth';
+import admin from '../middleware/user/admin';
 import {
   getAllProperties, getPropertyById, postProperty,
   updateProperty, propertySold, deleteProperty,
 } from '../controllers/property';
 
+import validate from '../middleware/property/validate';
+import strictValidate from '../middleware/property/strict_validate';
+import searchProperty from '../middleware/property/search_property';
+import checkPropertyId from '../middleware/property/check_property_id';
+
 const router = express.Router();
 
 
-router.get('/', getAllProperties);
+router.get('/', [searchProperty], getAllProperties);
 
-router.get('/:id', getPropertyById);
+router.get('/:id', [checkPropertyId], getPropertyById);
 
-router.post('/', [auth], postProperty);
+router.post('/', [auth, validate, strictValidate ], postProperty);
 
-router.patch('/:id', auth, updateProperty);
+router.patch('/:id', [auth, strictValidate, checkPropertyId], updateProperty);
 
-router.patch('/:id/sold', auth, propertySold);
+router.patch('/:id/sold', [auth, checkPropertyId], propertySold);
 
-router.delete('/:id', [auth, admin], deleteProperty);
+router.delete('/:id', [auth, admin, checkPropertyId], deleteProperty);
 
 export default router;

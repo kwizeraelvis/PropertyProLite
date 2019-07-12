@@ -1,4 +1,4 @@
-import { results, ERROR } from '../helper/result';
+import { results, ERROR } from '../../helper/result';
 import bcrypt from 'bcrypt';
 
 export default async (req, res, next) => {

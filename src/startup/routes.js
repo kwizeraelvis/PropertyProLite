@@ -3,7 +3,7 @@ import fileupload from 'express-fileupload';
 import signup from '../routes/signup';
 import signin from '../routes/signin';
 import property from '../routes/property';
-import error from '../middleware/error';
+import error from '../middleware/user/error';
 
 export default (app) => {
   app.use(express.json());
