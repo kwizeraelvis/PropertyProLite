@@ -109,7 +109,7 @@ describe('api/property', () => {
 
     beforeEach(() => {
       property = {
-        price: 100,
+        price: 1000,
         state: 'New york',
         city: 'Queens',
         address: 'Street 397 PK',
@@ -147,27 +147,21 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
+    it('should return 400 if property already exits', async() => {
+      const property = { type: '6 bedrooms' };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
     it('should return a property if it is saved successfully', async () => {
       const res = await exec();
 
       expect(res.status).to.equal(200);
       expect(res.body.data).to.have.property('id');
     });
-
-    // it('should return 200 if a property is uploaded successfully', (done) => {
-    //   const image = '../src/UI/assets/image1.jpg'
-    //   console.log('the image is : ',image);
-    //   request(server)
-    //   .post('/api/v1/property')
-    //   .set('x-auth-token', token)
-    //   .attach('photo', image)
-    //   .end((err, result) => {
-    //     console.log('the result is : ', result);
-    //     console.log('the error is : ', err);
-    //   });
-
-    //   done();
-    // });
   });
 
   describe('PATCH/:ID /', () => {
@@ -182,7 +176,7 @@ describe('api/property', () => {
 
     beforeEach(() => {
       property = {
-        price: 1,
+        price: 1000,
         state: 'new state',
         city: 'city',
         address: 'address',
