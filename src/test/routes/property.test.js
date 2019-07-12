@@ -12,16 +12,20 @@ describe('api/property', () => {
     let user;
     let property;
     let stringQuery;
+    let token;
 
     const exec = () => request(server)
-      .get(`/api/v1/property${stringQuery}`);
+      .get(`/api/v1/property${stringQuery}`)
+      .set('x-auth-token', token);
 
     beforeEach(() => {
       users.length = 0;
       properties.length = 0;
 
-      user = { id: 1, email: 'a', phoneNumber: '1' };
-      property = { id: 1, owner: 1, type: 'type', state: 'state'};
+      user = { id: 1, email: 'a', phoneNumber: '1', isAdmin: true };
+      property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
+
+      token = generateAuthToken(user);
 
       users.push(user);
       properties.push(property);
@@ -47,6 +51,16 @@ describe('api/property', () => {
     it('should return all properties ', async () => {
       stringQuery = '';
 
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
       const res = await exec();
 
       expect(res.status).to.equal(200);

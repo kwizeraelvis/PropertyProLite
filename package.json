@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -s -d dist",
+    "start": "node dist/index.js",
     "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+  },
+  "engines": {
+    "node": "10.16.0"
   },
   "keywords": [],
   "author": "",
@@ -17,10 +21,12 @@
     "@babel/runtime": "^7.4.5",
     "bcrypt": "^3.0.6",
     "cloudinary": "^1.14.0",
+    "compression": "^1.7.4",
     "config": "^3.1.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-fileupload": "^1.1.5",
+    "helmet": "^3.15.1",
     "is-url": "^1.2.4",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",

@@ -22,7 +22,7 @@ describe('auth/signup', () => {
         first_name: 'a',
         last_name: 'a',
         password: '123456',
-        phoneNumber: '1',
+        phoneNumber: '1234567890',
         address: 'a',
         isAdmin: true,
       };

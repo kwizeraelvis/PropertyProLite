@@ -1,7 +1,8 @@
 node_modules/
-dist/
 express_exceptions.log
 node_exceptions.log
 src/.eslintrc.json
 .nyc_output/
 coverage/
+.env
+dist/
