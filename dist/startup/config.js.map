@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/startup/config.js"],"names":["dotenv","config"],"mappings":";;;;;;;;;AAAA;;eAEe,oBAAM;AACnBA,qBAAOC,MAAP;AACD,C","sourcesContent":["import dotenv from 'dotenv';\r\n\r\nexport default () => {\r\n  dotenv.config();\r\n};\r\n"],"file":"config.js"}

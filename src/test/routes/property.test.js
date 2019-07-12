@@ -12,16 +12,20 @@ describe('api/property', () => {
     let user;
     let property;
     let stringQuery;
+    let token;
 
     const exec = () => request(server)
-      .get(`/api/v1/property${stringQuery}`);
+      .get(`/api/v1/property${stringQuery}`)
+      .set('x-auth-token', token);
 
     beforeEach(() => {
       users.length = 0;
       properties.length = 0;
 
-      user = { id: 1, email: 'a', phoneNumber: '1' };
-      property = { id: 1, owner: 1, type: 'type', state: 'state'};
+      user = { id: 1, email: 'a', phoneNumber: '1', isAdmin: true };
+      property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
+
+      token = generateAuthToken(user);
 
       users.push(user);
       properties.push(property);
@@ -47,6 +51,27 @@ describe('api/property', () => {
     it('should return all properties ', async () => {
       stringQuery = '';
 
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties if no token is provided', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      token = '';
+      
       const res = await exec();
 
       expect(res.status).to.equal(200);
@@ -136,7 +161,7 @@ describe('api/property', () => {
 
       const res = await exec();
 
-      expect(res.status).to.equal(500);
+      expect(res.status).to.equal(400);
     });
 
     it('should return 400 if input is invalid', async () => {
@@ -156,12 +181,75 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
+    it('should return 400 if input contain special characters', async () => {
+      property.city = '*';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if a string variable is given a number', async () => {
+      property.city = '1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if city contains numbers', async () => {
+      property.city = 'a1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if state contains numbers', async () => {
+      property.state = 'a1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if an image url is invalid', async () => {
+      property.image_url = 'a';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
     it('should return a property if it is saved successfully', async () => {
       const res = await exec();
 
       expect(res.status).to.equal(200);
       expect(res.body.data).to.have.property('id');
     });
+
+    // it('should return 200 if image is uploaded', (done) => {
+    //   const user = { id: 1, isAdmin: true, name: 'amily' };
+    //   const token = generateAuthToken(user);
+
+    //   const image = './UI/assets/image1.jpg'
+
+    //    request(server)
+    //   .post('/api/v1/property')
+    //   .set('x-auth-token', token)
+    //   .field('price', 1000)
+    //   .field('state', 'state')
+    //   .field('city', 'city')
+    //   .field('address', 'address')
+    //   .field('type', 'type')
+    //   .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
+    //   .attach('photo', image)
+    //   .end((err, res) => {
+        
+    //     expect(res.status).to.equal(200);
+    //     done();
+    //   })
+    // });
   });
 
   describe('PATCH/:ID /', () => {
@@ -212,6 +300,14 @@ describe('api/property', () => {
       const res = await exec();
 
       expect(res.status).to.equal(404);
+    });
+
+    it('should return 400 if an image url is invalid', async () => {
+      property.image_url = 'a';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
     });
 
     it('should return updated property if input is valid', async () => {

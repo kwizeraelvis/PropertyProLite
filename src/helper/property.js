@@ -28,14 +28,19 @@ export const strictValidate = (req) => {
     }
   }
 
+  if(/\d/.test(req.body.state)) return { error: 'state should not contain numbers' }
+  if(/\d/.test(req.body.city)) return { error: 'city should not contain numbers' }
+
+
   if (req.update) {
     if(req.body.image_url) {
       if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' }; 
     }
   }
   else {
-    if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' }; 
+    if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' };
   } 
+
 
   if(req.body.type) {
     for(let property of properties) {

@@ -11,7 +11,7 @@ export default (req, res, next) => {
     req.user = decoded;
     next();
   } catch (ex) {
-    // res.status(400).send('Invalid token');
-    throw new Error('Invalid token');
+    res.status(400).send(results(400, ERROR, 'Invalid token'));
+    // throw new Error('Invalid token');
   }
 };

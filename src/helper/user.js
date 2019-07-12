@@ -12,7 +12,7 @@ export const validateSignup = (req) => {
     first_name: Joi.string().required().min(1).max(255),
     last_name: Joi.string().required().min(1).max(255),
     password: Joi.string().required().min(6).max(255),
-    phoneNumber: Joi.number().required().min(1).max(25),
+    phoneNumber: Joi.number().required(),
     address: Joi.string().required().min(1).max(255),
     isAdmin: Joi.boolean(),
   };
@@ -31,6 +31,9 @@ export const strictValidate = (req) => {
       if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
     }
   }
+
+  if(req.body.phoneNumber.length < 10 || req.body.phoneNumber.length > 15) 
+      return { error: 'phone number should be greater than 10 or less than 15' };
 }
 
 export const validateLogin = (req) => {
