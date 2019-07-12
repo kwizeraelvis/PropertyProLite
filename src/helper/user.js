@@ -46,12 +46,6 @@ export const generateAuthToken = (user) => {
   return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.JWT_PRIVATE_KEY);
 }
 
-export const validateEmail = (req) => {
-  const user = users.find(user => user.email === req.body.email);
-
-  return user;
-}
-
 export const validatePassword = async (req, user) => {
   return await bcrypt.compare(req.body.password, user.password);
 }

@@ -56,8 +56,8 @@ export const updateProperty = async (req, res) => {
   let property = properties.find(p => p.id === parseInt(req.params.id, 10));
   if (!property) return res.status(404).send(results(404, ERROR, 'Property with the given id does not exists'));
 
-  const error = strictValidate(req);
-  if (error) return res.status(400).send(results(400, ERROR, error));
+  // const error = strictValidate(req);
+  // if (error) return res.status(400).send(results(400, ERROR, error));
 
   property = updatePropertyHelper(property, req);
 
