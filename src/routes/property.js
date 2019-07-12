@@ -10,6 +10,7 @@ import validate from '../middleware/property/validate';
 import strictValidate from '../middleware/property/strict_validate';
 import searchProperty from '../middleware/property/search_property';
 import checkPropertyId from '../middleware/property/check_property_id';
+import upload from '../middleware/property/upload';
 
 const router = express.Router();
 
@@ -18,7 +19,7 @@ router.get('/', [searchProperty], getAllProperties);
 
 router.get('/:id', [checkPropertyId], getPropertyById);
 
-router.post('/', [auth, validate, strictValidate ], postProperty);
+router.post('/', [auth, validate, strictValidate, upload ], postProperty);
 
 router.patch('/:id', [auth, strictValidate, checkPropertyId], updateProperty);
 

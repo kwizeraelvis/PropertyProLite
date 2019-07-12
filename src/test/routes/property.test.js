@@ -114,7 +114,7 @@ describe('api/property', () => {
         city: 'Queens',
         address: 'Street 397 PK',
         type: '6 bedrooms',
-        image_url: 'some url',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
       user = { id: 1, isAdmin: true };
@@ -187,7 +187,7 @@ describe('api/property', () => {
         city: 'city',
         address: 'address',
         type: 'type',
-        image_url: 'url',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
       user = { id: 1, isAdmin: true };
@@ -213,7 +213,7 @@ describe('api/property', () => {
     });
 
     it('should return 404 if property with given id is not found', async () => {
-      property = {};
+      property = { image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/'};
 
       const res = await exec();
 

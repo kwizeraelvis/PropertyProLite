@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import _ from "lodash";
+import isUrl from 'is-url';
 
 const properties = [];
 
@@ -18,15 +19,17 @@ export const validate = (req) => {
 
 export const strictValidate = (req) => {
   const regex = /^[A-Za-z0-9 ]+$/;
-
   let keys = Object.keys(req.body);
 
   for (let key of keys) {
-    if (!['price'].includes(key)) {
+    if (!['price', 'image_url'].includes(key)) {
       if (!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
       if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
     }
   }
+
+  if(!isUrl(req.body.image_url)) return { error: 'the url is invalid' };
+
 }
 
 export const saveProperty = (req) => {
