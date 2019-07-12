@@ -5,7 +5,7 @@ import { searchProperties, searchPropertyById } from '../helper/search';
 
 
 export const getAllProperties = (req, res) => {
-  const properties = searchProperties();
+  const properties = searchProperties(req.user);
 
   (properties.length > 0) ? res.send(results(200, SUCCESS, properties)) : res.status(404).send(results(404, ERROR, 'No properties available'));
 };

@@ -12,11 +12,12 @@ import searchProperty from '../middleware/property/search_property';
 import checkPropertyId from '../middleware/property/check_property_id';
 import upload from '../middleware/property/upload';
 import validateUpdate from '../middleware/property/validate_update';
+import authProperty from '../middleware/property/auth';
 
 const router = express.Router();
 
 
-router.get('/', [searchProperty], getAllProperties);
+router.get('/', [authProperty, searchProperty], getAllProperties);
 
 router.get('/:id', [checkPropertyId], getPropertyById);
 

@@ -39,10 +39,7 @@ export const strictValidate = (req) => {
 
   if(req.body.type) {
     for(let property of properties) {
-      console.log('the property is : ', property.type);
-      console.log('the property is : ', req.body.type);
       if(property.type == req.body.type) {
-        console.log('they are really equal')
         return { error: 'the house already exits' };
       } 
     }

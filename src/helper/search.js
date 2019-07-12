@@ -18,14 +18,28 @@ export const searchPropertiesByType = (keys, req) => {
     return specificProperties;
 }
 
-export const searchProperties = () => {
-    for (let property of properties) {
-        const { email, phoneNumber } = users.find(user => user.id === property.owner);
-        property.ownerEmail = email;
-        property.ownerPhoneNumber = phoneNumber;
-    }
+export const searchProperties = (user) => {
 
-    return properties;
+    if (user) {
+        for (let property of properties) {
+            const { email, phoneNumber } = users.find(user => user.id === property.owner);
+            property.ownerEmail = email;
+            property.ownerPhoneNumber = phoneNumber;
+        }
+
+        return properties;
+    }
+    else {
+        const freshProperties = [];
+        freshProperties.length = 0;
+
+        for (let property of properties) {
+            if(property.status == 'available') 
+                freshProperties.push(property);
+        }
+
+        return freshProperties;
+    }
 }
 
 export const searchPropertyById = (property) => {
