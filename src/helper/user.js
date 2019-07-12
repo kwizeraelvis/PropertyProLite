@@ -24,11 +24,11 @@ export const strictValidate = (req) => {
   const regex = /^[A-Za-z0-9 ]+$/;
 
   let keys = Object.keys(req.body);
-  
-  for(let key of keys) {
+
+  for (let key of keys) {
     if (!['email', 'password', 'phoneNumber', 'isAdmin'].includes(key)) {
-      if(!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
-      if(!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+      if (!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
+      if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
     }
   }
 }
@@ -43,11 +43,13 @@ export const validateLogin = (req) => {
 }
 
 export const generateAuthToken = (user) => {
-  return jwt.sign({ id: user.id, isAdmin: user.isAdmin }, process.env.JWT_PRIVATE_KEY);
-}
-
-export const validatePassword = async (req, user) => {
-  return await bcrypt.compare(req.body.password, user.password);
+  return jwt.sign({
+      id: user.id,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    }, process.env.JWT_PRIVATE_KEY);
 }
 
 export const hashPassword = async (user) => {
@@ -61,14 +63,12 @@ export const save = async (req) => {
 
   const token = generateAuthToken(user);
   user.token = token;
-  
+
   user.password = await hashPassword(user);
 
   users.push(user);
 
-  user = _.pick(user, ['token', 'first_name', 'last_name', 'email', 'phoneNumber', 'address', 'isAdmin']);
-
-  return user;
+  return _.pick(user, ['token']);
 }
 
 export { users };

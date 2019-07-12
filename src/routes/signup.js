@@ -6,6 +6,6 @@ import validateEmail from '../middleware/validate_email';
 
 const router = express.Router();
 
-router.post('/', [validateSignup, strictValidate, validateEmail], signup);
+router.post('/', [validateSignup, strictValidate, validateEmail ], signup);
 
 export default router;
