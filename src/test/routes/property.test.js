@@ -132,6 +132,32 @@ describe('api/property', () => {
     });
   });
 
+  describe('GET/ME /', () => {
+    let token;
+
+    const exec = () => request(server)
+      .get('/api/v1/property/me')
+      .set('x-auth-token', token);
+
+    beforeEach(() => {
+      const user = { id: 1, isAdmin: true };
+      token = generateAuthToken(user);
+
+      properties.length = 0;
+    });
+
+
+    it('should return 200 if own property are fetched', async () => {
+      const property = { id: 1, owner: 1 };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(property.id);
+    });
+  });
+
   describe('POST /', () => {
     let token;
     let property;
@@ -234,7 +260,7 @@ describe('api/property', () => {
     it('should return a property if it is saved successfully', async () => {
       const res = await exec();
 
-      expect(res.status).to.equal(200);
+      expect(res.status).to.equal(201);
       expect(res.body.data).to.have.property('id');
     });
 
@@ -320,12 +346,21 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return updated property if input is valid', async () => {
+    it('should return 403 if property is not yours', async () => {
       const property = { id: 1, state: 'state' };
       properties.push(property);
 
       const res = await exec();
-      
+
+      expect(res.status).to.equal(403);
+    });
+
+    it('should updated property if it is yours', async () => {
+      const property = { id: 1, state: 'state', owner: 1 };
+      properties.push(property);
+
+      const res = await exec();
+
       expect(res.status).to.equal(200);
       expect(property.state).to.equal('new state');
     });
@@ -373,8 +408,8 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
-    it('should return property with sold status', async () => {
-      const property = { id: 1, status: 'available' };
+    it('should return property with sold status if it is yours', async () => {
+      const property = { id: 1, status: 'available', owner: 1 };
       properties.push(property);
 
       const res = await exec();
@@ -436,7 +471,7 @@ describe('api/property', () => {
     });
 
     it('should return deleted property', async () => {
-      const property = { id: 1 };
+      const property = { id: 1, owner: 1 };
       properties.push(property);
 
       const res = await exec();

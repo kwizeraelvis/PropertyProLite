@@ -1,4 +1,3 @@
-import { properties } from '../../helper/property';
 import { results, ERROR } from '../../helper/result';
 
 export default (req, res, next) => {
