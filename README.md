@@ -50,6 +50,7 @@ Property Pro Lite is a platform to buy and sell properties across the world.
 - PATCH  /property/<:property-id>/sold  - Mark a property as sold so users know it’s no longer available​.
 - DELETE  /property/<:property-id>  - Delete a property advert.
 - GET  /property/<:property-id>/  - Get all property adverts
+- GET /property/me  - Get all your property adverts
 - GET  /property/<:property-id>?type=​propertyType  - Get all property advertisement offering a specific type of property. 
 - GET /property/<:property-id>  - View a specific property advert. 
 
@@ -59,10 +60,10 @@ API is on point, i.e all endpoints works fine, but
 - The data is not persisted on the database yet, i.e if you restart the application the data are erased.
 
 # Installation
-- Run git clone github.com/amilykassim/PropertyProLite.git
-- Run cd Property Pro Lite to navigate to the project directory
-- Run npm install to download and install all packages
-- Run npm start to start the server
+- Run git clone https://github.com/amilykassim/PropertyProLite.git
+- Run cd `Property Pro Lite` to navigate to the project directory
+- Run npm `install` to download and install all packages
+- Run npm `start` to start the server
 - And then Test the end points using postman or your browser
 
 # Contributing
