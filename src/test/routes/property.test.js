@@ -12,16 +12,20 @@ describe('api/property', () => {
     let user;
     let property;
     let stringQuery;
+    let token;
 
     const exec = () => request(server)
-      .get(`/api/v1/property${stringQuery}`);
+      .get(`/api/v1/property${stringQuery}`)
+      .set('x-auth-token', token);
 
     beforeEach(() => {
       users.length = 0;
       properties.length = 0;
 
-      user = { id: 1, email: 'a', phoneNumber: '1' };
-      property = { id: 1, owner: 1, type: 'type', state: 'state'};
+      user = { id: 1, email: 'a', phoneNumber: '1', isAdmin: true };
+      property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
+
+      token = generateAuthToken(user);
 
       users.push(user);
       properties.push(property);
@@ -47,6 +51,37 @@ describe('api/property', () => {
     it('should return all properties ', async () => {
       stringQuery = '';
 
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties if no token is provided', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      token = '';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
       const res = await exec();
 
       expect(res.status).to.equal(200);
@@ -109,12 +144,12 @@ describe('api/property', () => {
 
     beforeEach(() => {
       property = {
-        price: 100,
+        price: 1000,
         state: 'New york',
         city: 'Queens',
         address: 'Street 397 PK',
         type: '6 bedrooms',
-        image_url: 'some url',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
       user = { id: 1, isAdmin: true };
@@ -136,12 +171,61 @@ describe('api/property', () => {
 
       const res = await exec();
 
-      expect(res.status).to.equal(500);
+      expect(res.status).to.equal(400);
     });
 
     it('should return 400 if input is invalid', async () => {
       property = {};
 
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if property already exits', async() => {
+      const property = { type: '6 bedrooms' };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if input contain special characters', async () => {
+      property.city = '*';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if a string variable is given a number', async () => {
+      property.city = '1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if city contains numbers', async () => {
+      property.city = 'a1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if state contains numbers', async () => {
+      property.state = 'a1';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if an image url is invalid', async () => {
+      property.image_url = 'a';
+      
       const res = await exec();
 
       expect(res.status).to.equal(400);
@@ -154,20 +238,28 @@ describe('api/property', () => {
       expect(res.body.data).to.have.property('id');
     });
 
-    // it('should return 200 if a property is uploaded successfully', (done) => {
-    //   const image = '../src/UI/assets/image1.jpg'
-    //   console.log('the image is : ',image);
-    //   request(server)
-    //   .post('/api/v1/property')
-    //   .set('x-auth-token', token)
-    //   .attach('photo', image)
-    //   .end((err, result) => {
-    //     console.log('the result is : ', result);
-    //     console.log('the error is : ', err);
-    //   });
+    it('should return 200 if image is uploaded', (done) => {
+      const user = { id: 1, isAdmin: true, name: 'amily' };
+      const token = generateAuthToken(user);
 
-    //   done();
-    // });
+      const image = './UI/assets/image1.jpg'
+
+       request(server)
+      .post('/api/v1/property')
+      .set('x-auth-token', token)
+      .field('price', 1000)
+      .field('state', 'state')
+      .field('city', 'city')
+      .field('address', 'address')
+      .field('type', 'type')
+      .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
+      .attach('photo', image)
+      .end((err, res) => {
+        
+        expect(res.status).to.equal(200);
+        done();
+      })
+    });
   });
 
   describe('PATCH/:ID /', () => {
@@ -182,12 +274,12 @@ describe('api/property', () => {
 
     beforeEach(() => {
       property = {
-        price: 1,
+        price: 1000,
         state: 'new state',
         city: 'city',
         address: 'address',
         type: 'type',
-        image_url: 'image_url',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
       user = { id: 1, isAdmin: true };
@@ -204,12 +296,28 @@ describe('api/property', () => {
       expect(res.status).to.equal(401);
     });
 
+    it('should return 400 if property data is not valid', async () => {
+      property.state = 1;
+
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
     it('should return 404 if property with given id is not found', async () => {
-      property = {};
+      property = { image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/'};
 
       const res = await exec();
 
       expect(res.status).to.equal(404);
+    });
+
+    it('should return 400 if an image url is invalid', async () => {
+      property.image_url = 'a';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
     });
 
     it('should return updated property if input is valid', async () => {
@@ -217,7 +325,7 @@ describe('api/property', () => {
       properties.push(property);
 
       const res = await exec();
-
+      
       expect(res.status).to.equal(200);
       expect(property.state).to.equal('new state');
     });

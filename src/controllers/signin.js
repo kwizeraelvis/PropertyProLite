@@ -1,21 +1,13 @@
-import bcrypt from 'bcrypt';
-import { results, SUCCESS, ERROR } from '../helper/result';
-import { generateAuthToken, validateLogin, validateEmail } from '../helper/user';
+import { results, SUCCESS } from '../helper/result';
+import { generateAuthToken } from '../helper/user';
+import _ from 'lodash';
 
 const signin = async (req, res) => {
-  const { error } = validateLogin(req);
-  if (error) return res.status(400).send(results(ERROR, error.details[0].message));
+  req.user.token = generateAuthToken(req.user);
 
-  const user = validateEmail(req);
-  if (!user) return res.status(400).send(results(ERROR, 'Invalid email'));
+  req.user = _.pick(req.user, ['token']);
 
-  const isValid = await bcrypt.compare(req.body.password, user.password);
-  if (!isValid) return res.status(400).send(results(ERROR, 'Invalid password'));
-
-  const token = generateAuthToken(user);
-  user.token = token;
-
-  res.header('x-auth-token', token).send(results(SUCCESS, user));
+  res.header('x-auth-token', req.user.token).send(results(200, SUCCESS, req.user));
 };
 
 export default signin;

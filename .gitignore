@@ -4,3 +4,5 @@ node_exceptions.log
 src/.eslintrc.json
 .nyc_output/
 coverage/
+.env
+dist/
