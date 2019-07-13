@@ -1,8 +1,5 @@
-import config from 'config';
-// import configFile from '../../config/test';
+import dotenv from 'dotenv';
 
 export default () => {
-  if (!config.get('jwtPrivateKey')) {
-    throw new Error('jwtPrivateKey is not defined');
-  }
+  dotenv.config();
 };
