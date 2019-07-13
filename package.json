@@ -6,23 +6,9 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -s -d dist",
-<<<<<<< HEAD
-    "start": "node dist/index.js",
-    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit --timeout 15000",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
-    "coverage_local": "nyc --reporter=html --reporter=text mocha --require @babel/register 'src/test/**/*.js'",
-    "showCoverage": "npm run coverage_local && nyc coverage/index.html"
-  },
-  "engines": {
-    "node": "10.16.0"
-||||||| merged common ancestors
-    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
-=======
     "start": "node dist/index.js",
     "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
->>>>>>> bd71c49a37229d2f441c7cc9ca6cf7b9695c844b
   },
   "engines": {
     "node": "10.16.0"

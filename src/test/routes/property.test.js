@@ -57,7 +57,6 @@ describe('api/property', () => {
       expect(res.body.data[0].id).to.equal(properties[0].id);
     });
 
-<<<<<<< HEAD
     it('should return all available properties ', async () => {
       stringQuery = '';
       property.status = 'available';
@@ -79,8 +78,6 @@ describe('api/property', () => {
       expect(res.body.data[0].id).to.equal(properties[0].id);
     });
 
-||||||| merged common ancestors
-=======
     it('should return all available properties ', async () => {
       stringQuery = '';
       property.status = 'available';
@@ -91,7 +88,6 @@ describe('api/property', () => {
       expect(res.body.data[0].id).to.equal(properties[0].id);
     });
 
->>>>>>> bd71c49a37229d2f441c7cc9ca6cf7b9695c844b
     it('should return 404 if no properties founded ', async () => {
       stringQuery = '';
       properties.length = 0;
