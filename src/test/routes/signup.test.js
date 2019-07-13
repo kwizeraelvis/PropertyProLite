@@ -2,7 +2,9 @@ import chaiHttp from 'chai-http';
 import chai from 'chai';
 import jwt from 'jsonwebtoken';
 import { users } from '../../helper/user';
+import { assign } from '../../helper//user';
 import server from '../../index';
+import { validUserSignup } from '../models/data';
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
@@ -10,27 +12,19 @@ const { expect, request } = chai;
 
 describe('auth/signup', () => {
   describe('POST /', () => {
-    let user;
+    let user = {};
 
     const exec = () => request(server)
       .post('/api/v1/auth/signup')
       .send(user);
 
     beforeEach(() => {
-      user = {
-        email: 'email@gmail.com',
-        first_name: 'a',
-        last_name: 'a',
-        password: '123456',
-        phoneNumber: '1234567890',
-        address: 'a',
-        isAdmin: true,
-      };
+      user = assign(user, validUserSignup);
 
       users.length = 0;
     });
 
-    it('should return 400 if input is invalid', async () => {
+    it('should return 400 if password is invalid', async () => {
       user.password = '1';
 
       const res = await exec();

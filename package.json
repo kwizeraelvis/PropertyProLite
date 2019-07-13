@@ -7,8 +7,9 @@
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -s -d dist",
     "start": "node dist/index.js",
-    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit --timeout 15000",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
+    "local": "nyc --reporter=html --reporter=text mocha --require @babel/register 'src/test/**/*.js' && nyc coverage/index.html"
   },
   "engines": {
     "node": "10.16.0"
@@ -23,6 +24,7 @@
     "cloudinary": "^1.14.0",
     "compression": "^1.7.4",
     "config": "^3.1.0",
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-fileupload": "^1.1.5",
@@ -43,7 +45,6 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "coveralls": "^3.0.4",
-    "dotenv": "^8.0.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.2.0",
     "eslint-plugin-import": "^2.18.0",

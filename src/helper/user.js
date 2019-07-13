@@ -74,4 +74,13 @@ export const save = async (req) => {
   return _.pick(user, ['token']);
 }
 
+export const assign = (user, userMock) => {
+  const keys = Object.keys(userMock);
+  for(let key of keys) {
+    user[`${key}`] = userMock[`${key}`];
+  }
+
+  return user;
+}
+
 export { users };

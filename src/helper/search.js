@@ -34,7 +34,7 @@ export const searchProperties = (user) => {
         freshProperties.length = 0;
 
         for (let property of properties) {
-            if(property.status == 'available') 
+            if (property.status == 'available')
                 freshProperties.push(property);
         }
 
@@ -48,4 +48,17 @@ export const searchPropertyById = (property) => {
     property.ownerPhoneNumber = phoneNumber;
 
     return property;
+}
+
+export const searchMyProperties = (user) => {
+    const myProperties = [];
+    myProperties.length = 0;
+
+    for (let property of properties) {
+        if (property.owner === user.id) {
+            myProperties.push(property);
+        }
+    }
+
+    return myProperties;
 }
