@@ -1,27 +1,12 @@
-import bcrypt from 'bcrypt';
 import _ from 'lodash';
-import { users, validateSignup, generateAuthToken } from '../helper/user';
 import { results, SUCCESS, ERROR } from '../helper/result';
+import { save } from '../helper/user';
 
 const signup = async (req, res) => {
-  const { error } = validateSignup(req);
-  if (error) return res.status(400).send(results(ERROR, error.details[0].message));
 
-  let user = users.find(user => user.email === req.body.email);
-  if (user) return res.status(400).send(results(ERROR, 'user already registered.'));
+  const user = await save(req);
 
-  user = _.pick(req.body, ['first_name', 'last_name', 'email', 'password', 'phoneNumber', 'address', 'isAdmin']);
-  user.id = users.length + 1;
-
-  const token = generateAuthToken(user);
-  user.token = token;
-
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
-
-  users.push(user);
-
-  res.header('x-auth-token', token).send(results(SUCCESS, user));
+  res.header('x-auth-token', user.token).send(results(200, SUCCESS, user));
 };
 
 export default signup;

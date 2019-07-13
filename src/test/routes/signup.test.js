@@ -22,7 +22,7 @@ describe('auth/signup', () => {
         first_name: 'a',
         last_name: 'a',
         password: '123456',
-        phoneNumber: '1',
+        phoneNumber: '1234567890',
         address: 'a',
         isAdmin: true,
       };
@@ -32,6 +32,22 @@ describe('auth/signup', () => {
 
     it('should return 400 if input is invalid', async () => {
       user.password = '1';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if input has special characters', async () => {
+      user.first_name = '*';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
+    });
+
+    it('should return 400 if phone number is less than 10 digits', async () => {
+      user.phoneNumber = '1';
 
       const res = await exec();
 
