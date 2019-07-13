@@ -19,7 +19,7 @@ export const getPropertyById = (req, res) => {
 export const postProperty = async (req, res) => {
   const property = saveProperty(req);
 
-  res.send(results(200, SUCCESS, property));
+  res.send(results(201, SUCCESS, property));
 };
 
 export const updateProperty = async (req, res) => {

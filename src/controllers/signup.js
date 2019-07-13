@@ -6,7 +6,7 @@ const signup = async (req, res) => {
 
   const user = await save(req);
 
-  res.header('x-auth-token', user.token).send(results(200, SUCCESS, user));
+  res.header('x-auth-token', user.token).send(results(201, SUCCESS, user));
 };
 
 export default signup;
