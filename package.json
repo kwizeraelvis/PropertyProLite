@@ -7,7 +7,7 @@
     "dev": "nodemon --exec babel-node src/index.js",
     "build": "babel src -s -d dist",
     "start": "node dist/index.js",
-    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit",
+    "test": "nyc mocha --require @babel/register 'src/test/**/*.js' --exit --timeout 15000",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "local": "nyc --reporter=html --reporter=text mocha --require @babel/register 'src/test/**/*.js' && nyc coverage/index.html"
   },
