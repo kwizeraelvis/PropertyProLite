@@ -8,7 +8,7 @@ backBtn.addEventListener("click", goToLandingPage);
 loginBtn.addEventListener("click", goToLoginPage);
 
 function goToHomepage() {
-    window.location.href = "home.html";
+    window.location.href = "discover.html";
 }
 
 function goToLandingPage() {

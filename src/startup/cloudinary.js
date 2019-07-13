@@ -1,5 +1,4 @@
 import cloudinary from 'cloudinary';
-import config from 'config';
 
 cloudinary.config({
   cloud_name: "propertyprolite",

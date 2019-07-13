@@ -10,7 +10,7 @@ backBtn.addEventListener("click", goToLandingPage);
 
 
 function goToHomepage() {
-    window.location.href = "home.html";
+    window.location.href = "discover.html";
 }
 
 function goToSignUpPage() {

@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { users, generateAuthToken } from '../../models/user';
-import { properties } from '../../models/property';
+import { users, generateAuthToken } from '../../helper/user';
+import { properties } from '../../helper/property';
 import server from '../../index';
 
 chai.use(chaiHttp);
@@ -153,6 +153,21 @@ describe('api/property', () => {
       expect(res.status).to.equal(200);
       expect(res.body.data).to.have.property('id');
     });
+
+    // it('should return 200 if a property is uploaded successfully', (done) => {
+    //   const image = '../src/UI/assets/image1.jpg'
+    //   console.log('the image is : ',image);
+    //   request(server)
+    //   .post('/api/v1/property')
+    //   .set('x-auth-token', token)
+    //   .attach('photo', image)
+    //   .end((err, result) => {
+    //     console.log('the result is : ', result);
+    //     console.log('the error is : ', err);
+    //   });
+
+    //   done();
+    // });
   });
 
   describe('PATCH/:ID /', () => {
