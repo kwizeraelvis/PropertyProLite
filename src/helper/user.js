@@ -12,7 +12,13 @@ export const validateSignup = (req) => {
     first_name: Joi.string().required().min(1).max(255),
     last_name: Joi.string().required().min(1).max(255),
     password: Joi.string().required().min(6).max(255),
+<<<<<<< HEAD
     phoneNumber: Joi.number().required(),
+||||||| merged common ancestors
+    phoneNumber: Joi.number().required().min(1).max(25),
+=======
+    phoneNumber: Joi.number().required().min(10),
+>>>>>>> bd71c49a37229d2f441c7cc9ca6cf7b9695c844b
     address: Joi.string().required().min(1).max(255),
     isAdmin: Joi.boolean(),
   };
