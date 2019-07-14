@@ -319,30 +319,6 @@ describe('api/property', () => {
 
       expect(res.status).to.equal(400);
     });
-
-    // it('should return 403 if property is not yours', async () => {
-    //   property = _.pick(property, ['state', 'type', 'city', 'price', 'address', 'image_url']);
-    //   properties.length = 0;
-    //   properties.push(property);
-
-    //   const res = await exec();
-
-    //   console.log('res is : ', res.body);
-
-    //   expect(res.status).to.equal(403);
-    // });
-
-    // it('should updated property if it is yours', async () => {
-    //   const property = { id: 1, state: 'state', owner: 1 };
-    //   properties.push(property);
-
-    //   const res = await exec();
-
-    //   console.log('the res is : ', res.body);
-
-    //   expect(res.status).to.equal(200);
-    //   expect(property.state).to.equal('new state');
-    // });
   });
 
   describe('PATCH/:id/sold /', () => {
