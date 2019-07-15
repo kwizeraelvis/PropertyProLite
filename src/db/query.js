@@ -9,6 +9,9 @@ export const CREATE_TABLE =
      address VARCHAR(50) NOT NULL,
      is_admin VARCHAR(50));`;
 
+export const DROP_TABLE = 
+    `DROP TABLE users`
+
 export const SELECT_ALL_USERS =
     'SELECT * FROM users';
 

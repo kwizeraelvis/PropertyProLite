@@ -67,8 +67,6 @@ export const save = async (req) => {
 
   user.password = await hashPassword(user);
 
-  // await pool.query('DROP TABLE users');
-  await pool.query(CREATE_TABLE);
   await pool.query(SAVE_USER, 
     [user.first_name, user.last_name, user.email, user.password, user.phoneNumber,
     user.address, user.isAdmin]);
