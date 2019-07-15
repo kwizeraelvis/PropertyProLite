@@ -2,20 +2,15 @@ import chai from 'chai';
 import chaiHttp from 'chai-http';
 import { users, generateAuthToken } from '../../helper/user';
 import { properties } from '../../helper/property';
-import { validProperty, validUserProperty } from '../models/data';
-import { assign } from '../../helper/user';
 import server from '../../index';
-import _ from 'lodash';
-
-
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('api/property', () => {
   describe('GET /', () => {
-    let user = {};
-    let property = {};
+    let user;
+    let property;
     let stringQuery;
     let token;
 
@@ -27,38 +22,13 @@ describe('api/property', () => {
       users.length = 0;
       properties.length = 0;
 
-      user = assign(user, validUserProperty);
-      property = assign(property, validProperty);
+      user = { id: 1, email: 'a', phoneNumber: '1', isAdmin: true };
+      property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
 
       token = generateAuthToken(user);
-      stringQuery = '';
 
       users.push(user);
       properties.push(property);
-    });
-
-    it('should return all properties ', async () => {
-      const res = await exec();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
-    });
-
-    it('should return 404 if no properties founded ', async () => {
-      properties.length = 0;
-
-      const res = await exec();
-
-      expect(res.status).to.equal(404);
-    });
-
-    it('should return all available properties ', async () => {
-      property.status = 'available';
-      
-      const res = await exec();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
     });
 
     it('should return 200 with a property of a given type it it exists', async () => {
@@ -78,7 +48,27 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
+    it('should return all properties ', async () => {
+      stringQuery = '';
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
     it('should return all available properties if no token is provided', async () => {
+      stringQuery = '';
       property.status = 'available';
       token = '';
       
@@ -87,11 +77,30 @@ describe('api/property', () => {
       expect(res.status).to.equal(200);
       expect(res.body.data[0].id).to.equal(properties[0].id);
     });
+
+    it('should return all available properties ', async () => {
+      stringQuery = '';
+      property.status = 'available';
+      
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data[0].id).to.equal(properties[0].id);
+    });
+
+    it('should return 404 if no properties founded ', async () => {
+      stringQuery = '';
+      properties.length = 0;
+
+      const res = await exec();
+
+      expect(res.status).to.equal(404);
+    });
   });
 
   describe('GET/:ID /', () => {
-    let user = {};
-    let property = {};
+    let user;
+    let property;
 
     const exec = () => request(server)
       .get('/api/v1/property/1');
@@ -100,18 +109,11 @@ describe('api/property', () => {
       users.length = 0;
       properties.length = 0;
 
-      user = assign(user, validUserProperty);
-      property = assign(property, validProperty);
+      user = { id: 1, email: 'a', phoneNumber: '1' };
+      property = { id: 1, owner: 1 };
 
       users.push(user);
       properties.push(property);
-    });
-
-    it('should return property with given id', async () => {
-      const res = await exec();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.data.id).to.equal(property.id);
     });
 
     it('should return 404 if property with given id is not found', async () => {
@@ -120,6 +122,13 @@ describe('api/property', () => {
       const res = await exec();
 
       expect(res.status).to.equal(404);
+    });
+
+    it('should return property with given id', async () => {
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(res.body.data.id).to.equal(property.id);
     });
   });
 
@@ -131,26 +140,28 @@ describe('api/property', () => {
       .set('x-auth-token', token);
 
     beforeEach(() => {
-      token = generateAuthToken(validUserProperty);
+      const user = { id: 1, isAdmin: true };
+      token = generateAuthToken(user);
 
       properties.length = 0;
     });
 
 
     it('should return 200 if own property are fetched', async () => {
-      properties.push(validProperty);
+      const property = { id: 1, owner: 1 };
+      properties.push(property);
 
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(validProperty.id);
+      expect(res.body.data[0].id).to.equal(property.id);
     });
   });
 
   describe('POST /', () => {
     let token;
-    let property = {};
-    let user = {};
+    let property;
+    let user;
 
     const exec = () => request(server)
       .post('/api/v1/property')
@@ -158,9 +169,16 @@ describe('api/property', () => {
       .send(property);
 
     beforeEach(() => {
-      property = assign(property, validProperty);
+      property = {
+        price: 1000,
+        state: 'New york',
+        city: 'Queens',
+        address: 'Street 397 PK',
+        type: '6 bedrooms',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
+      };
 
-      user = assign(user, validUserProperty);
+      user = { id: 1, isAdmin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -240,8 +258,6 @@ describe('api/property', () => {
     });
 
     it('should return a property if it is saved successfully', async () => {
-      property = _.pick(property, ['state', 'type', 'city', 'price', 'address', 'image_url']);
-
       const res = await exec();
 
       expect(res.status).to.equal(201);
@@ -249,6 +265,9 @@ describe('api/property', () => {
     });
 
     it('should return 200 if image is uploaded', (done) => {
+      const user = { id: 1, isAdmin: true, name: 'amily' };
+      const token = generateAuthToken(user);
+
       const image = './UI/assets/image1.jpg'
 
        request(server)
@@ -271,8 +290,8 @@ describe('api/property', () => {
 
   describe('PATCH/:ID /', () => {
     let token;
-    let property = {};
-    let user = {};
+    let property;
+    let user;
 
     const exec = () => request(server)
       .patch('/api/v1/property/1')
@@ -280,9 +299,16 @@ describe('api/property', () => {
       .send(property);
 
     beforeEach(() => {
-      property = assign(property, validProperty);
+      property = {
+        price: 1000,
+        state: 'new state',
+        city: 'city',
+        address: 'address',
+        type: 'type',
+        image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
+      };
 
-      user = assign(user, validUserProperty);
+      user = { id: 1, isAdmin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -305,7 +331,7 @@ describe('api/property', () => {
     });
 
     it('should return 404 if property with given id is not found', async () => {
-      property = _.pick(property, ['state', 'type', 'city', 'price', 'address', 'image_url']);
+      property = { image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/'};
 
       const res = await exec();
 
@@ -319,12 +345,31 @@ describe('api/property', () => {
 
       expect(res.status).to.equal(400);
     });
+
+    it('should return 403 if property is not yours', async () => {
+      const property = { id: 1, state: 'state' };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(403);
+    });
+
+    it('should updated property if it is yours', async () => {
+      const property = { id: 1, state: 'state', owner: 1 };
+      properties.push(property);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+      expect(property.state).to.equal('new state');
+    });
   });
 
   describe('PATCH/:id/sold /', () => {
     let token;
-    let property = {};
-    let user = {};
+    let property;
+    let user;
 
     const exec = () => request(server)
       .patch('/api/v1/property/1/sold')
@@ -332,9 +377,16 @@ describe('api/property', () => {
       .send(property);
 
     beforeEach(() => {
-      property = assign(property, validProperty);
+      property = {
+        price: 1,
+        state: 'new state',
+        city: 'city',
+        address: 'address',
+        type: 'type',
+        image_url: 'image_url',
+      };
 
-      user = assign(user, validUserProperty);
+      user = { id: 1, isAdmin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -369,8 +421,8 @@ describe('api/property', () => {
 
   describe('DELETE /', () => {
     let token;
-    let property = {};
-    let user = {};
+    let property;
+    let user;
 
     const exec = () => request(server)
       .delete('/api/v1/property/1')
@@ -378,9 +430,16 @@ describe('api/property', () => {
       .send(property);
 
     beforeEach(() => {
-      property = assign(property, validProperty);
+      property = {
+        price: 1,
+        state: 'new state',
+        city: 'city',
+        address: 'address',
+        type: 'type',
+        image_url: 'image_url',
+      };
 
-      user = assign(user, validUserProperty);
+      user = { id: 1, isAdmin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
