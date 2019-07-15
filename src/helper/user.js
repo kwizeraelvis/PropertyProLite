@@ -2,6 +2,8 @@ import Joi from 'joi';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
+import { pool } from '../startup/pg_db';
+import { CREATE_TABLE, SAVE_USER, SELECT_USER } from '../db/query';
 
 const users = [];
 
@@ -62,16 +64,21 @@ export const hashPassword = async (user) => {
 
 export const save = async (req) => {
   let user = _.pick(req.body, ['first_name', 'last_name', 'email', 'password', 'phoneNumber', 'address', 'isAdmin']);
-  user.id = users.length + 1;
-
-  const token = generateAuthToken(user);
-  user.token = token;
 
   user.password = await hashPassword(user);
 
-  users.push(user);
+  // await pool.query('DROP TABLE users');
+  await pool.query(CREATE_TABLE);
+  await pool.query(SAVE_USER, 
+    [user.first_name, user.last_name, user.email, user.password, user.phoneNumber,
+    user.address, user.isAdmin]);
 
-  return _.pick(user, ['token']);
+  const savedUser = await pool.query(SELECT_USER, [user.email]);
+  
+  const token = generateAuthToken(user);
+  savedUser.rows[0].token = token;
+  
+  return _.pick(savedUser.rows[0], ['token']);
 }
 
 export const assign = (user, userMock) => {
