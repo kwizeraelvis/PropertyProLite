@@ -23,7 +23,7 @@ export const getPropertyById = (req, res) => {
 };
 
 export const postProperty = async (req, res) => {
-  const property = saveProperty(req);
+  const property = await saveProperty(req);
 
   res.status(201).send(results(201, SUCCESS, property));
 };

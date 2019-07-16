@@ -1,21 +1,19 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 import { assign } from '../../helper/user';
 import { hashPassword } from '../../helper/user';
-import { users } from '../../helper/user';
 import server from '../../index';
 import { pool } from '../../startup/pg_db';
-import { CREATE_TABLE, DROP_TABLE, SAVE_USER } from '../../db/query';
-import { validUserSignInShort, validUserSignInLong, invalidEmail, emptyUser, validUserSignup } from '../models/data';
+import { CREATE_USER_TABLE, DROP_USER_TABLE, SAVE_USER } from '../../db/query';
+import { validUserSignInShort, emptyUser, validUserSignup } from '../models/data';
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('auth/signin', () => {
-  beforeEach(async () => await pool.query(CREATE_TABLE));
-  afterEach(async () => await pool.query(DROP_TABLE));
+  beforeEach(async () => await pool.query(CREATE_USER_TABLE));
+  afterEach(async () => await pool.query(DROP_USER_TABLE));
 
   describe('POST /', () => {
     let user = {};

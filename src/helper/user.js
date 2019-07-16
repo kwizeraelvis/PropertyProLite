@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 import { pool } from '../startup/pg_db';
-import { CREATE_TABLE, SAVE_USER, SELECT_USER } from '../db/query';
+import { SAVE_USER, SELECT_USER } from '../db/query';
 
 const users = [];
 
@@ -72,8 +72,9 @@ export const save = async (req) => {
     user.address, user.is_admin]);
 
   const savedUser = await pool.query(SELECT_USER, [user.email]);
-  
-  const token = generateAuthToken(user);
+
+  const token = generateAuthToken(savedUser.rows[0]);
+
   savedUser.rows[0].token = token;
   
   return _.pick(savedUser.rows[0], ['token']);

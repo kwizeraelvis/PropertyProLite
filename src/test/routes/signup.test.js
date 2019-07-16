@@ -1,20 +1,19 @@
 import chaiHttp from 'chai-http';
 import chai from 'chai';
 import jwt from 'jsonwebtoken';
-import { users } from '../../helper/user';
 import { assign } from '../../helper//user';
 import server from '../../index';
 import { validUserSignup } from '../models/data';
 import { pool } from '../../startup/pg_db';
-import { CREATE_TABLE, DROP_TABLE, SAVE_USER } from '../../db/query';
+import { CREATE_USER_TABLE, DROP_USER_TABLE, SAVE_USER } from '../../db/query';
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
 
 describe('auth/signup', () => {
-  beforeEach(async () => await pool.query(CREATE_TABLE));
-  afterEach(async () => await pool.query(DROP_TABLE));
+  beforeEach(async () => await pool.query(CREATE_USER_TABLE));
+  afterEach(async () => await pool.query(DROP_USER_TABLE));
 
   describe('POST /', () => {
     let user = {};

@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import _ from "lodash";
 import isUrl from 'is-url';
+import { pool } from '../startup/pg_db';
+import { SAVE_PROPERTY, CREATE_PROPERTY_TABLE, SELECT_PROPERTY } from '../db/query'
 
 const properties = [];
 
@@ -64,16 +66,21 @@ export const validateUpdate = (req) => {
   return Joi.validate(req.body, schema);
 }
 
-export const saveProperty = (req) => {
+export const saveProperty = async (req) => {
   const property = _.pick(req.body, ['price', 'state', 'city', 'address', 'type', 'image_url']);
-  property.id = properties.length + 1;
   property.owner = req.user.id;
   property.status = 'available';
   property.created_on = new Date().toLocaleString();
 
-  properties.push(property);
+  await pool.query(CREATE_PROPERTY_TABLE);
 
-  return property;
+  let savedProperty = await pool.query(SELECT_PROPERTY, [property.type]);
+  if(savedProperty.rows.length !== 0) return { error: 'The house already exists' };
+
+  await pool.query(SAVE_PROPERTY, [property.price, property.state, property.city, property.address, property.type, property.image_url, property.owner, property.status, property.created_on]);
+  savedProperty = await pool.query(SELECT_PROPERTY, [property.type]);
+
+  return savedProperty.rows[0];
 }
 
 export const updatePropertyHelper = (property, req) => {
