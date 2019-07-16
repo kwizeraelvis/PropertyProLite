@@ -14,6 +14,5 @@ if(process.env.NODE_ENV === 'development') {
 }
 
 console.log('the running environment is : ', process.env.NODE_ENV);
-
 export { pool };
 
