@@ -15,9 +15,5 @@ before_script:
   - psql -c 'CREATE DATABASE test;' -U postgres
   - npm i 
 
-env:
-  global:
-  - DATABASE_TEST=postgresql://postgres@localhost:5432/test
-
 scripts: npm test
 after_success: npm run coverage
