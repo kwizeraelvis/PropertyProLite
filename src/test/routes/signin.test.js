@@ -6,12 +6,17 @@ import { assign } from '../../helper/user';
 import { hashPassword } from '../../helper/user';
 import { users } from '../../helper/user';
 import server from '../../index';
-import { validUserSignInShort, validUserSignInLong, invalidEmail, emptyUser } from '../models/data';
+import { pool } from '../../startup/pg_db';
+import { CREATE_TABLE, DROP_TABLE, SAVE_USER } from '../../db/query';
+import { validUserSignInShort, validUserSignInLong, invalidEmail, emptyUser, validUserSignup } from '../models/data';
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('auth/signin', () => {
+  beforeEach(async () => await pool.query(CREATE_TABLE));
+  afterEach(async () => await pool.query(DROP_TABLE));
+
   describe('POST /', () => {
     let user = {};
 
@@ -22,7 +27,6 @@ describe('auth/signin', () => {
     beforeEach(() => {
       user = assign(user, validUserSignInShort);
 
-      users.length = 0;
     });
 
     it('should return 400 if input is invalid', async () => {
@@ -34,8 +38,10 @@ describe('auth/signin', () => {
     });
 
     it('should return 400 if email is invalid', async () => {
-      const user = invalidEmail;
-      users.push(user);
+      const user = validUserSignup;
+      user.email = 'a@gmail.com';
+
+      await pool.query(SAVE_USER,[user.first_name, user.last_name, user.email, user.password, user.phone_number, user.address, user.is_admin]);
 
       const res = await exec();
 
@@ -43,7 +49,12 @@ describe('auth/signin', () => {
     });
 
     it('should return 400 if password is invalid', async () => {
-      users.push(user);
+      const user = validUserSignup;
+      user.password = '1';
+
+      user.password = await hashPassword(user);
+
+      await pool.query(SAVE_USER,[user.first_name, user.last_name, user.email, user.password, user.phone_number, user.address, user.is_admin]);
 
       const res = await exec();
 
@@ -51,16 +62,20 @@ describe('auth/signin', () => {
     });
 
     it('should return 200 if user is logged in successfully', async () => {
-      const user = validUserSignInLong;
+      const user = validUserSignup;
+      user.email = 'email@gmail.com'
+      user.password = '123456';
+      
       user.password = await hashPassword(user);
-      users.push(user);
+      
+      await pool.query(SAVE_USER,[user.first_name, user.last_name, user.email, user.password, user.phone_number, user.address, user.is_admin]);
 
       const res = await exec();
-
+      
       const decoded = jwt.verify(res.body.data.token, process.env.JWT_PRIVATE_KEY);
-
+      
       expect(res.status).to.equal(200);
-      expect(decoded).to.have.property('isAdmin');
+      expect(decoded).to.have.property('is_admin');
     });
   });
 });

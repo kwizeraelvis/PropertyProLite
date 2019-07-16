@@ -45,7 +45,7 @@ describe('auth/signup', () => {
     });
 
     it('should return 400 if phone number is less than 10 digits', async () => {
-      user.phoneNumber = '1';
+      user.phone_number = '1';
 
       const res = await exec();
 
@@ -54,8 +54,8 @@ describe('auth/signup', () => {
 
     it('should return 400 if user is already registered', async () => {
       await pool.query(SAVE_USER,
-        [user.first_name, user.last_name, user.email, user.password, user.phoneNumber,
-        user.address, user.isAdmin]);
+        [user.first_name, user.last_name, user.email, user.password, user.phone_number,
+        user.address, user.is_admin]);
 
       const res = await exec();
 
@@ -68,7 +68,7 @@ describe('auth/signup', () => {
       const decoded = jwt.verify(res.body.data.token, process.env.JWT_PRIVATE_KEY);
 
       expect(res.status).to.equal(200);
-      expect(decoded).to.have.property('isAdmin');
+      expect(decoded).to.have.property('is_admin');
     });
   });
 });

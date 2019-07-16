@@ -22,7 +22,7 @@ describe('api/property', () => {
       users.length = 0;
       properties.length = 0;
 
-      user = { id: 1, email: 'a', phoneNumber: '1', isAdmin: true };
+      user = { id: 1, email: 'a', phone_number: '1', is_admin: true };
       property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
 
       token = generateAuthToken(user);
@@ -109,7 +109,7 @@ describe('api/property', () => {
       users.length = 0;
       properties.length = 0;
 
-      user = { id: 1, email: 'a', phoneNumber: '1' };
+      user = { id: 1, email: 'a', phone_number: '1' };
       property = { id: 1, owner: 1 };
 
       users.push(user);
@@ -140,7 +140,7 @@ describe('api/property', () => {
       .set('x-auth-token', token);
 
     beforeEach(() => {
-      const user = { id: 1, isAdmin: true };
+      const user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -178,7 +178,7 @@ describe('api/property', () => {
         image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
-      user = { id: 1, isAdmin: true };
+      user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -265,7 +265,7 @@ describe('api/property', () => {
     });
 
     it('should return 200 if image is uploaded', (done) => {
-      const user = { id: 1, isAdmin: true, name: 'amily' };
+      const user = { id: 1, is_admin: true, name: 'amily' };
       const token = generateAuthToken(user);
 
       const image = './UI/assets/image1.jpg'
@@ -308,7 +308,7 @@ describe('api/property', () => {
         image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/',
       };
 
-      user = { id: 1, isAdmin: true };
+      user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -386,7 +386,7 @@ describe('api/property', () => {
         image_url: 'image_url',
       };
 
-      user = { id: 1, isAdmin: true };
+      user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -439,7 +439,7 @@ describe('api/property', () => {
         image_url: 'image_url',
       };
 
-      user = { id: 1, isAdmin: true };
+      user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
 
       properties.length = 0;
@@ -454,7 +454,7 @@ describe('api/property', () => {
     });
 
     it('should return 403 if user is not an admin', async () => {
-      user.isAdmin = false;
+      user.is_admin = false;
       token = generateAuthToken(user);
 
       const res = await exec();

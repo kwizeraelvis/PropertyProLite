@@ -4,10 +4,10 @@ import { pool } from '../../startup/pg_db';
 import { SELECT_USER } from '../../db/query';
 
 export default async (req, res, next) => {
-    const user = users.find(user => user.email === req.body.email);
-    if (!user) return res.status(400).send(results(400, ERROR, 'Invalid email'));
+    const user = await pool.query(SELECT_USER, [req.body.email]);
+    if (user.rows.length === 0) return res.status(400).send(results(400, ERROR, 'Invalid email'));
 
-    req.user = user;
+    req.user = user.rows[0];
 
     next();
 }

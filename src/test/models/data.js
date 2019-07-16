@@ -21,9 +21,9 @@ export const validUserSignup = {
 	first_name: 'a',
 	last_name: 'a',
 	password: '123456',
-	phoneNumber: '1234567890',
+	phone_number: '1234567890',
 	address: 'a',
-	isAdmin: true
+	is_admin: true
 }
 
 export const validProperty = {
