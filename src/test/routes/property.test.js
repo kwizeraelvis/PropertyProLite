@@ -268,28 +268,28 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    // it('should return 200 if image is uploaded', (done) => {
-    //   const user = { id: 1, is_admin: true, name: 'amily' };
-    //   const token = generateAuthToken(user);
+    it('should return 200 if image is uploaded', (done) => {
+      const user = { id: 1, is_admin: true, name: 'amily' };
+      const token = generateAuthToken(user);
 
-    //   const image = './UI/assets/image1.jpg'
+      const image = './UI/assets/image1.jpg'
 
-    //    request(server)
-    //   .post('/api/v1/property')
-    //   .set('x-auth-token', token)
-    //   .field('price', 1000)
-    //   .field('state', 'state')
-    //   .field('city', 'city')
-    //   .field('address', 'address')
-    //   .field('type', 'type')
-    //   .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
-    //   .attach('photo', image)
-    //   .end((err, res) => {
+       request(server)
+      .post('/api/v1/property')
+      .set('x-auth-token', token)
+      .field('price', 1000)
+      .field('state', 'state')
+      .field('city', 'city')
+      .field('address', 'address')
+      .field('type', 'type')
+      .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
+      .attach('photo', image)
+      .end((err, res) => {
 
-    //     expect(res.status).to.equal(201);
-    //     done();
-    //   })
-    // });
+        expect(res.status).to.equal(201);
+        done();
+      })
+    });
   });
 
   describe('PATCH/:ID /', () => {
