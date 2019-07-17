@@ -83,14 +83,20 @@ export const saveProperty = async (req) => {
   return savedProperty.rows[0];
 }
 
-export const updatePropertyHelper = (property, req) => {
+export const updatePropertyHelper = async (property, req) => {
   const keys = Object.keys(property);
-  keys.forEach((key) => {
-    if (!['id', 'owner', 'status', 'created_on'].includes(key) && req.body[`${key}`])
-      property[`${key}`] = req.body[`${key}`];
-  });
 
-  return property;
+  let value;
+  for(let key of keys) {
+    if (!['id', 'owner', 'status', 'created_on'].includes(key) && req.body[`${key}`]) {
+      value = req.body[`${key}`];
+      await pool.query(`UPDATE properties SET ${key} = '${value}'  WHERE id = ${property.id}`);
+    }
+  }
+
+  const updatedProperty = await pool.query(`SELECT * FROM properties WHERE id = ${property.id}`);
+  
+  return updatedProperty.rows[0];  
 }
 
 export const deletePropertyHelper = (property) => {
