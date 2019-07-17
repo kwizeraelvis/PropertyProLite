@@ -22,7 +22,6 @@ describe('api/property', () => {
 
   describe('GET /', () => {
     let user;
-    let property;
     let stringQuery;
     let token;
 
@@ -31,78 +30,53 @@ describe('api/property', () => {
       .set('x-auth-token', token);
 
     beforeEach(() => {
-      users.length = 0;
-      properties.length = 0;
-
-      user = { id: 1, email: 'a', phone_number: '1', is_admin: true };
-      property = { id: 1, owner: 1, type: 'type', state: 'state', status: 'sold' };
+      user = { id: 1, is_admin: true };
 
       token = generateAuthToken(user);
-
-      users.push(user);
-      properties.push(property);
     });
 
     it('should return 200 with a property of a given type it it exists', async () => {
-      stringQuery = '?type=type&&state=state';
+      stringQuery = '?type=type';
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data[0]).to.deep.equal(property);
+      expect(res.body.data[0].type).to.equal(validProperty.type);
     });
 
     it('should return 404 if property of a given type does not exists', async () => {
       stringQuery = '?type=new';
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(404);
     });
 
-    it('should return all properties ', async () => {
-      stringQuery = '';
-
-      const res = await exec();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
-    });
-
-    it('should return all available properties ', async () => {
-      stringQuery = '';
-      property.status = 'available';
-
-      const res = await exec();
-
-      expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
-    });
-
-    it('should return all available properties if no token is provided', async () => {
-      stringQuery = '';
-      property.status = 'available';
+    it('should return only available properties if you are a user', async () => {
       token = '';
+      stringQuery = '';
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
+      expect(res.body.data[0].id).to.equal(validProperty.id);
     });
 
-    it('should return all available properties ', async () => {
+    it('should return all properties if you are an admin', async () => {
       stringQuery = '';
-      property.status = 'available';
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(properties[0].id);
+      expect(res.body.data[0].id).to.equal(validProperty.id);
     });
 
     it('should return 404 if no properties founded ', async () => {
       stringQuery = '';
-      properties.length = 0;
 
       const res = await exec();
 
@@ -277,28 +251,28 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    // it('should return 200 if image is uploaded', (done) => {
-    //   const user = { id: 1, is_admin: true, name: 'amily' };
-    //   const token = generateAuthToken(user);
+    it('should return 200 if image is uploaded', (done) => {
+      const user = { id: 1, is_admin: true, name: 'amily' };
+      const token = generateAuthToken(user);
 
-    //   const image = './UI/assets/image1.jpg'
+      const image = './UI/assets/image1.jpg'
 
-    //    request(server)
-    //   .post('/api/v1/property')
-    //   .set('x-auth-token', token)
-    //   .field('price', 1000)
-    //   .field('state', 'state')
-    //   .field('city', 'city')
-    //   .field('address', 'address')
-    //   .field('type', 'type')
-    //   .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
-    //   .attach('photo', image)
-    //   .end((err, res) => {
+       request(server)
+      .post('/api/v1/property')
+      .set('x-auth-token', token)
+      .field('price', 1000)
+      .field('state', 'state')
+      .field('city', 'city')
+      .field('address', 'address')
+      .field('type', 'type')
+      .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
+      .attach('photo', image)
+      .end((err, res) => {
 
-    //     expect(res.status).to.equal(201);
-    //     done();
-    //   })
-    // });
+        expect(res.status).to.equal(201);
+        done();
+      })
+    });
   });
 
   describe('PATCH/:ID /', () => {
