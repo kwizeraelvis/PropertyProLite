@@ -6,8 +6,8 @@ import { pool } from '../startup/pg_db';
 import { CREATE_PROPERTY_TABLE } from '../db/query';
 
 
-export const getAllProperties = (req, res) => {
-  const properties = searchProperties(req.user);
+export const getAllProperties = async (req, res) => {
+  const { rows: properties } = await pool.query(`SELECT * FROM properties`);
 
   (properties.length > 0) ? res.send(results(200, SUCCESS, properties)) : res.status(404).send(results(404, ERROR, 'No properties available'));
 };
