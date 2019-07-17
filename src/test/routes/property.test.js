@@ -453,9 +453,6 @@ describe('api/property', () => {
       };
 
       id = '1';
-      // user = { id: 1, is_admin: true };
-      // token = generateAuthToken(user);
-
     });
 
     it('should return 401 if user is not logged in', async () => {

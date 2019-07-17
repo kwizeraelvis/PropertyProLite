@@ -1,8 +1,9 @@
 import _ from 'lodash';
 import { results, SUCCESS, ERROR } from '../helper/result';
 import { saveProperty, updatePropertyHelper, deletePropertyHelper } from '../helper/property';
-import { searchProperties, searchPropertyById, searchMyProperties } from '../helper/search';
+import { searchProperties, searchPropertyById } from '../helper/search';
 import { pool } from '../startup/pg_db';
+import { CREATE_PROPERTY_TABLE } from '../db/query';
 
 
 export const getAllProperties = (req, res) => {
@@ -11,10 +12,11 @@ export const getAllProperties = (req, res) => {
   (properties.length > 0) ? res.send(results(200, SUCCESS, properties)) : res.status(404).send(results(404, ERROR, 'No properties available'));
 };
 
-export const getMyProperties = (req, res) => {
-  const properties = searchMyProperties(req.user);
+export const getMyProperties = async (req, res) => {
+  await pool.query(CREATE_PROPERTY_TABLE);
+  const properties = await pool.query(`SELECT * FROM properties WHERE owner = ${req.user.id}`);
 
-  (properties.length > 0) ? res.send(results(200, SUCCESS, properties)) : res.status(404).send(results(404, ERROR, 'Currently you do not have any properties yet :('));
+  (properties.rows.length> 0) ? res.status(200).send(results(200, SUCCESS, properties.rows)) : res.status(400).send(results(404, ERROR, 'Currently you do not have any properties yet :('));
 };
 
 export const getPropertyById = async (req, res) => {
