@@ -153,19 +153,22 @@ describe('api/property', () => {
     beforeEach(() => {
       const user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
-
-      properties.length = 0;
     });
 
 
     it('should return 200 if own property are fetched', async () => {
-      const property = { id: 1, owner: 1 };
-      properties.push(property);
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data[0].id).to.equal(property.id);
+      expect(res.body.data[0].id).to.equal(validProperty.id);
+    });
+
+    it('should return 400 if you do not have any properties of yourself', async () => {
+      const res = await exec();
+
+      expect(res.status).to.equal(400);
     });
   });
 
