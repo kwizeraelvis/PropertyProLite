@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { results, SUCCESS, ERROR } from '../helper/result';
 import { saveProperty, updatePropertyHelper, deletePropertyHelper } from '../helper/property';
 import { searchProperties, searchPropertyById, searchMyProperties } from '../helper/search';
+import { pool } from '../startup/pg_db';
 
 
 export const getAllProperties = (req, res) => {
@@ -36,9 +37,10 @@ export const updateProperty = async (req, res) => {
 };
 
 export const propertySold = async (req, res) => {
-  req.property.status = 'sold';
+  await pool.query(`UPDATE properties SET status = 'sold' WHERE id = ${req.property.id}`);
+  const updatedProperty = await pool.query(`SELECT * FROM properties WHERE id = ${req.property.id}`);
 
-  res.send(results(200, SUCCESS, req.property));
+  res.send(results(200, SUCCESS, updatedProperty.rows[0]));
 };
 
 export const deleteProperty = async (req, res) => {

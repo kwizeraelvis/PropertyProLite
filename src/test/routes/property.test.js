@@ -356,7 +356,6 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
-
     it('should return 403 if property is not yours', async () => {
       await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '2', 'available', new Date().toLocaleString()]);
 
@@ -379,9 +378,10 @@ describe('api/property', () => {
     let token;
     let property;
     let user;
+    let id;
 
     const exec = () => request(server)
-      .patch('/api/v1/property/1/sold')
+      .patch(`/api/v1/property/${id}/sold`)
       .set('x-auth-token', token)
       .send(property);
 
@@ -395,10 +395,9 @@ describe('api/property', () => {
         image_url: 'image_url',
       };
 
+      id = '1';
       user = { id: 1, is_admin: true };
       token = generateAuthToken(user);
-
-      properties.length = 0;
     });
 
     it('should return 401 if user is not logged in', async () => {
@@ -410,22 +409,23 @@ describe('api/property', () => {
     });
 
     it('should return 404 if property with given id is not found', async () => {
-      property = {};
+      id = '2';
+
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
       const res = await exec();
 
       expect(res.status).to.equal(404);
     });
 
-    // it('should return property with sold status if it is yours', async () => {
-    //   const property = { id: 1, status: 'available', owner: 1 };
-    //   properties.push(property);
+    it('should return property with sold status if it is yours', async () => {
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
+      
+      const res = await exec();
 
-    //   const res = await exec();
-
-    //   expect(res.status).to.equal(200);
-    //   expect(property.status).to.equal('sold');
-    // });
+      expect(res.status).to.equal(200);
+      expect(res.body.data.status).to.equal('sold');
+    });
   });
 
   describe('DELETE /', () => {
