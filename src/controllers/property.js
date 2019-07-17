@@ -30,7 +30,7 @@ export const postProperty = async (req, res) => {
 };
 
 export const updateProperty = async (req, res) => {
-  const property = updatePropertyHelper(req.property, req);
+  const property = await updatePropertyHelper(req.property, req);
 
   res.send(results(200, SUCCESS, property));
 };

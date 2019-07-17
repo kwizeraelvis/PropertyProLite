@@ -1,6 +1,6 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
-import { users, generateAuthToken } from '../../helper/user';
+import { users, generateAuthToken, assign } from '../../helper/user';
 import { properties } from '../../helper/property';
 import { pool } from '../../startup/pg_db';
 import { CREATE_PROPERTY_TABLE, DROP_PROPERTY_TABLE, CREATE_USER_TABLE, SAVE_PROPERTY, SAVE_USER } from '../../db/query'
@@ -271,37 +271,38 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return 200 if image is uploaded', (done) => {
-      const user = { id: 1, is_admin: true, name: 'amily' };
-      const token = generateAuthToken(user);
+    // it('should return 200 if image is uploaded', (done) => {
+    //   const user = { id: 1, is_admin: true, name: 'amily' };
+    //   const token = generateAuthToken(user);
 
-      const image = './UI/assets/image1.jpg'
+    //   const image = './UI/assets/image1.jpg'
 
-       request(server)
-      .post('/api/v1/property')
-      .set('x-auth-token', token)
-      .field('price', 1000)
-      .field('state', 'state')
-      .field('city', 'city')
-      .field('address', 'address')
-      .field('type', 'type')
-      .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
-      .attach('photo', image)
-      .end((err, res) => {
+    //    request(server)
+    //   .post('/api/v1/property')
+    //   .set('x-auth-token', token)
+    //   .field('price', 1000)
+    //   .field('state', 'state')
+    //   .field('city', 'city')
+    //   .field('address', 'address')
+    //   .field('type', 'type')
+    //   .field('image_url', 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/')
+    //   .attach('photo', image)
+    //   .end((err, res) => {
 
-        expect(res.status).to.equal(201);
-        done();
-      })
-    });
+    //     expect(res.status).to.equal(201);
+    //     done();
+    //   })
+    // });
   });
 
   describe('PATCH/:ID /', () => {
     let token;
     let property;
     let user;
+    let id;
 
     const exec = () => request(server)
-      .patch('/api/v1/property/1')
+      .patch(`/api/v1/property/${id}`)
       .set('x-auth-token', token)
       .send(property);
 
@@ -316,9 +317,9 @@ describe('api/property', () => {
       };
 
       user = { id: 1, is_admin: true };
-      token = generateAuthToken(user);
 
-      properties.length = 0;
+      id = '1';
+      token = generateAuthToken(user);
     });
 
     it('should return 401 if user is not logged in', async () => {
@@ -337,14 +338,6 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return 404 if property with given id is not found', async () => {
-      property = { image_url: 'https://postcron.com/en/blog/10-amazing-marketing-lessons-steve-jobs-taught-us/' };
-
-      const res = await exec();
-
-      expect(res.status).to.equal(404);
-    });
-
     it('should return 400 if an image url is invalid', async () => {
       property.image_url = 'a';
 
@@ -353,24 +346,33 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    // it('should return 403 if property is not yours', async () => {
-    //   const property = { id: 1, state: 'state' };
-    //   properties.push(property);
+    it('should return 404 if property with given id is not found', async () => {
+      id = '2';
 
-    //   const res = await exec();
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
-    //   expect(res.status).to.equal(403);
-    // });
+      const res = await exec();
 
-    // it('should updated property if it is yours', async () => {
-    //   const property = { id: 1, state: 'state', owner: 1 };
-    //   properties.push(property);
+      expect(res.status).to.equal(404);
+    });
 
-    //   const res = await exec();
 
-    //   expect(res.status).to.equal(200);
-    //   expect(property.state).to.equal('new state');
-    // });
+    it('should return 403 if property is not yours', async () => {
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '2', 'available', new Date().toLocaleString()]);
+
+      const res = await exec();
+
+      expect(res.status).to.equal(403);
+    });
+
+    it('should updated property if it is yours', async () => {
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
+
+      const res = await exec();
+      
+      expect(res.status).to.equal(200);
+      expect(property.state).to.equal('new state');
+    });
   });
 
   describe('PATCH/:id/sold /', () => {
