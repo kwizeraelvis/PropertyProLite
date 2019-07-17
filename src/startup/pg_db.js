@@ -14,7 +14,7 @@ if(process.env.NODE_ENV === 'development') {
 }
 
 if(process.env.NODE_ENV === 'production') {
-    pool = new Pool({ connectionString: process.env.DATABASE_PRODUCTION });
+    pool = new Pool({ connectionString: process.env.DATABASE_URL });
 }
 
 console.log('the running environment is : ', process.env.NODE_ENV);
