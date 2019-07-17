@@ -488,14 +488,16 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
-    // it('should return deleted property', async () => {
-    //   const property = { id: 1, owner: 1 };
-    //   properties.push(property);
+    it('should return deleted property', async () => {
+      await pool.query(SAVE_USER, [validUserSignup.first_name, validUserSignup.last_name, validUserSignup.email, validUserSignup.password, validUserSignup.phone_number, validUserSignup.address, validUserSignup.is_admin])
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
-    //   const res = await exec();
+      const user = await pool.query(`SELECT * FROM users WHERE id = 1`);
+      token = generateAuthToken(user.rows[0]);
 
-    //   expect(res.status).to.equal(200);
-    //   expect(properties).to.have.length.lessThan(1);
-    // });
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+    });
   });
 });
