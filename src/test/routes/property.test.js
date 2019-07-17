@@ -3,7 +3,7 @@ import chaiHttp from 'chai-http';
 import { users, generateAuthToken, assign } from '../../helper/user';
 import { properties } from '../../helper/property';
 import { pool } from '../../startup/pg_db';
-import { CREATE_PROPERTY_TABLE, DROP_PROPERTY_TABLE, CREATE_USER_TABLE, SAVE_PROPERTY, SAVE_USER } from '../../db/query'
+import { CREATE_PROPERTY_TABLE, DROP_PROPERTY_TABLE, CREATE_USER_TABLE, SAVE_PROPERTY, SAVE_USER, DROP_USER_TABLE } from '../../db/query'
 import server from '../../index';
 import { validProperty, validUserSignup } from '../models/data';
 
@@ -15,7 +15,10 @@ describe('api/property', () => {
     await pool.query(CREATE_PROPERTY_TABLE);
     await pool.query(CREATE_USER_TABLE);
   });
-  afterEach(async () => await pool.query(DROP_PROPERTY_TABLE));
+  afterEach(async () =>  {
+    await pool.query(DROP_USER_TABLE);
+    await pool.query(DROP_PROPERTY_TABLE)
+  });
 
   describe('GET /', () => {
     let user;
@@ -432,9 +435,10 @@ describe('api/property', () => {
     let token;
     let property;
     let user;
+    let id;
 
     const exec = () => request(server)
-      .delete('/api/v1/property/1')
+      .delete(`/api/v1/property/${id}`)
       .set('x-auth-token', token)
       .send(property);
 
@@ -448,10 +452,10 @@ describe('api/property', () => {
         image_url: 'image_url',
       };
 
-      user = { id: 1, is_admin: true };
-      token = generateAuthToken(user);
+      id = '1';
+      // user = { id: 1, is_admin: true };
+      // token = generateAuthToken(user);
 
-      properties.length = 0;
     });
 
     it('should return 401 if user is not logged in', async () => {
@@ -463,8 +467,10 @@ describe('api/property', () => {
     });
 
     it('should return 403 if user is not an admin', async () => {
-      user.is_admin = false;
-      token = generateAuthToken(user);
+      await pool.query(SAVE_USER, [validUserSignup.first_name, validUserSignup.last_name, validUserSignup.email, validUserSignup.password, validUserSignup.phone_number, validUserSignup.address, false])
+
+      const user = await pool.query(`SELECT * FROM users WHERE id = 1`);
+      token = generateAuthToken(user.rows[0]);
 
       const res = await exec();
 
@@ -472,21 +478,26 @@ describe('api/property', () => {
     });
 
     it('should return 404 if property with given id is not found', async () => {
-      property = {};
+      await pool.query(SAVE_USER, [validUserSignup.first_name, validUserSignup.last_name, validUserSignup.email, validUserSignup.password, validUserSignup.phone_number, validUserSignup.address, validUserSignup.is_admin])
+
+      const user = await pool.query(`SELECT * FROM users WHERE id = 1`);
+      token = generateAuthToken(user.rows[0]);
 
       const res = await exec();
 
       expect(res.status).to.equal(404);
     });
 
-    // it('should return deleted property', async () => {
-    //   const property = { id: 1, owner: 1 };
-    //   properties.push(property);
+    it('should return deleted property', async () => {
+      await pool.query(SAVE_USER, [validUserSignup.first_name, validUserSignup.last_name, validUserSignup.email, validUserSignup.password, validUserSignup.phone_number, validUserSignup.address, validUserSignup.is_admin])
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
 
-    //   const res = await exec();
+      const user = await pool.query(`SELECT * FROM users WHERE id = 1`);
+      token = generateAuthToken(user.rows[0]);
 
-    //   expect(res.status).to.equal(200);
-    //   expect(properties).to.have.length.lessThan(1);
-    // });
+      const res = await exec();
+
+      expect(res.status).to.equal(200);
+    });
   });
 });

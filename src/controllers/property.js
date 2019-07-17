@@ -44,7 +44,7 @@ export const propertySold = async (req, res) => {
 };
 
 export const deleteProperty = async (req, res) => {
-  const property = deletePropertyHelper(req.property);
+  const property = await deletePropertyHelper(req.property);
 
   res.send(results(200, SUCCESS, property));
 };

@@ -99,9 +99,8 @@ export const updatePropertyHelper = async (property, req) => {
   return updatedProperty.rows[0];  
 }
 
-export const deletePropertyHelper = (property) => {
-  const index = properties.indexOf(property);
-  properties.splice(index, 1);
+export const deletePropertyHelper = async (property) => {
+  await pool.query(`DELETE FROM properties WHERE id = ${property.id}`);
 
   property = {};
   property.message = 'Deleted property successfully';
