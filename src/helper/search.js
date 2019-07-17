@@ -53,16 +53,3 @@ export const searchPropertyById = async (property) => {
 
     return property;
 }
-
-export const searchMyProperties = (user) => {
-    const myProperties = [];
-    myProperties.length = 0;
-
-    for (let property of properties) {
-        if (property.owner === user.id) {
-            myProperties.push(property);
-        }
-    }
-
-    return myProperties;
-}
