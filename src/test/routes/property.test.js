@@ -3,14 +3,18 @@ import chaiHttp from 'chai-http';
 import { users, generateAuthToken } from '../../helper/user';
 import { properties } from '../../helper/property';
 import { pool } from '../../startup/pg_db';
-import { CREATE_PROPERTY_TABLE, DROP_PROPERTY_TABLE, SAVE_PROPERTY } from '../../db/query'
+import { CREATE_PROPERTY_TABLE, DROP_PROPERTY_TABLE, CREATE_USER_TABLE, SAVE_PROPERTY, SAVE_USER } from '../../db/query'
 import server from '../../index';
+import { validProperty, validUserSignup } from '../models/data';
 
 chai.use(chaiHttp);
 const { expect, request } = chai;
 
 describe('api/property', () => {
-  beforeEach(async () => await pool.query(CREATE_PROPERTY_TABLE));
+  beforeEach(async () => {
+    await pool.query(CREATE_PROPERTY_TABLE);
+    await pool.query(CREATE_USER_TABLE);
+  });
   afterEach(async () => await pool.query(DROP_PROPERTY_TABLE));
 
   describe('GET /', () => {
@@ -106,34 +110,33 @@ describe('api/property', () => {
   describe('GET/:ID /', () => {
     let user;
     let property;
+    let id;
 
     const exec = () => request(server)
-      .get('/api/v1/property/1');
+      .get(`/api/v1/property/${id}`);
 
     beforeEach(() => {
-      users.length = 0;
-      properties.length = 0;
-
-      user = { id: 1, email: 'a', phone_number: '1' };
-      property = { id: 1, owner: 1 };
-
-      users.push(user);
-      properties.push(property);
+      id = '1';
     });
 
     it('should return 404 if property with given id is not found', async () => {
-      properties.length = 0;
-
+      id = '2'
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
+  
       const res = await exec();
 
       expect(res.status).to.equal(404);
     });
 
     it('should return property with given id', async () => {
+      await pool.query(SAVE_PROPERTY, [validProperty.price, validProperty.state, validProperty.city, validProperty.address, validProperty.type, validProperty.image_url, '1', 'available', new Date().toLocaleString()]);
+
+      await pool.query(SAVE_USER, [validUserSignup.first_name, validUserSignup.last_name, validUserSignup.email, validUserSignup.password, validUserSignup.phone_number, validUserSignup.address, validUserSignup.is_admin])
+
       const res = await exec();
 
       expect(res.status).to.equal(200);
-      expect(res.body.data.id).to.equal(property.id);
+      expect(res.body.data).to.have.property('id');
     });
   });
 
@@ -350,24 +353,24 @@ describe('api/property', () => {
       expect(res.status).to.equal(400);
     });
 
-    it('should return 403 if property is not yours', async () => {
-      const property = { id: 1, state: 'state' };
-      properties.push(property);
+    // it('should return 403 if property is not yours', async () => {
+    //   const property = { id: 1, state: 'state' };
+    //   properties.push(property);
 
-      const res = await exec();
+    //   const res = await exec();
 
-      expect(res.status).to.equal(403);
-    });
+    //   expect(res.status).to.equal(403);
+    // });
 
-    it('should updated property if it is yours', async () => {
-      const property = { id: 1, state: 'state', owner: 1 };
-      properties.push(property);
+    // it('should updated property if it is yours', async () => {
+    //   const property = { id: 1, state: 'state', owner: 1 };
+    //   properties.push(property);
 
-      const res = await exec();
+    //   const res = await exec();
 
-      expect(res.status).to.equal(200);
-      expect(property.state).to.equal('new state');
-    });
+    //   expect(res.status).to.equal(200);
+    //   expect(property.state).to.equal('new state');
+    // });
   });
 
   describe('PATCH/:id/sold /', () => {
@@ -412,15 +415,15 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
-    it('should return property with sold status if it is yours', async () => {
-      const property = { id: 1, status: 'available', owner: 1 };
-      properties.push(property);
+    // it('should return property with sold status if it is yours', async () => {
+    //   const property = { id: 1, status: 'available', owner: 1 };
+    //   properties.push(property);
 
-      const res = await exec();
+    //   const res = await exec();
 
-      expect(res.status).to.equal(200);
-      expect(property.status).to.equal('sold');
-    });
+    //   expect(res.status).to.equal(200);
+    //   expect(property.status).to.equal('sold');
+    // });
   });
 
   describe('DELETE /', () => {
@@ -474,14 +477,14 @@ describe('api/property', () => {
       expect(res.status).to.equal(404);
     });
 
-    it('should return deleted property', async () => {
-      const property = { id: 1, owner: 1 };
-      properties.push(property);
+    // it('should return deleted property', async () => {
+    //   const property = { id: 1, owner: 1 };
+    //   properties.push(property);
 
-      const res = await exec();
+    //   const res = await exec();
 
-      expect(res.status).to.equal(200);
-      expect(properties).to.have.length.lessThan(1);
-    });
+    //   expect(res.status).to.equal(200);
+    //   expect(properties).to.have.length.lessThan(1);
+    // });
   });
 });
