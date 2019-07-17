@@ -16,8 +16,8 @@ export const getMyProperties = (req, res) => {
   (properties.length > 0) ? res.send(results(200, SUCCESS, properties)) : res.status(404).send(results(404, ERROR, 'Currently you do not have any properties yet :('));
 };
 
-export const getPropertyById = (req, res) => {
-  const property = searchPropertyById(req.property);
+export const getPropertyById = async (req, res) => {
+  const property = await searchPropertyById(req.property);
 
   return res.send(results(200, SUCCESS, property));
 };

@@ -1,5 +1,6 @@
 import { properties } from './property';
 import { users } from './user';
+import { pool } from '../startup/pg_db';
 
 
 export const searchPropertiesByType = (keys, req) => {
@@ -42,10 +43,13 @@ export const searchProperties = (user) => {
     }
 }
 
-export const searchPropertyById = (property) => {
-    const { email, phoneNumber } = users.find(user => user.id === property.owner);
-    property.ownerEmail = email;
-    property.ownerPhoneNumber = phoneNumber;
+export const searchPropertyById = async (property) => {
+
+    const user = await pool.query(`SELECT * FROM users WHERE id = ${property.owner}`);
+
+    const { email, phone_number } = user.rows[0];
+    property.owner_email = email;
+    property.owner_phone_number = phone_number;
 
     return property;
 }
