@@ -271,7 +271,7 @@ describe('api/property', () => {
 
         expect(res.status).to.equal(201);
         done();
-      })
+      });
     });
   });
 
