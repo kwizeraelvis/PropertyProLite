@@ -1,0 +1,311 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Property Pro lite",
+    "description" : "Property Pro Lite is a platform where people can create and/or search properties for sale or rent. "
+  },
+  "servers" : [ {
+    "url" : "https://property-pro-lite-amily.herokuapp.com/api/v1/"
+  }, {
+    "url" : "http://localhost:3000/api/v1/"
+  } ],
+  "tags" : [ {
+    "name" : "user",
+    "description" : "Operations about a user"
+  }, {
+    "name" : "property",
+    "description" : "Operations about a property"
+  } ],
+  "paths" : {
+    "/auth/signup" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Add a user to the system",
+        "description" : "Create a user",
+        "requestBody" : {
+          "description" : "User object that needs to be added to the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      }
+    },
+    "/auth/signin" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Login user",
+        "description" : "Login a user to the system",
+        "requestBody" : {
+          "description" : "User object that needs to be added to the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Userlogin"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Userlogin"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Logged in successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      }
+    },
+
+    "/property" : {
+      "post" : {
+        "tags" : [ "property" ],
+        "summary" : "Post a property",
+        "description" : "Create a property",
+        "requestBody" : {
+          "description" : "Property object that needs to be added to the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      },
+      "get" : {
+        "tags" : [ "property" ],
+        "summary" : "get all properties",
+        "description" : "get all properties",
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      }
+    },
+
+    "/property/{id}" : {
+      "get" : {
+        "tags" : [ "property" ],
+        "summary" : "Post a property",
+        "description" : "Create a property",
+        "requestBody" : {
+          "description" : "Property object that needs to be added to the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "property" ],
+        "summary" : "Update a property",
+        "description" : "Updating a property",
+        "requestBody" : {
+          "description" : "Updating a property in the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "property" ],
+        "summary" : "Delete a property",
+        "description" : "Deleting a property",
+        "requestBody" : {
+          "description" : "Deleting a property in the system",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            },
+            "application/xml" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Property"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created successfully"
+          },
+          "400" : {
+            "description" : "Invalid inputs"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "first_name" : {
+            "type" : "string"
+          },
+          "last_name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "phone_number" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "is_admin" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "User"
+        }
+      },
+      "Userlogin" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Property" : {
+        "type" : "object",
+        "properties" : {
+          "price" : {
+            "type" : "integer"
+          },
+          "state" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "image_url" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "User"
+        }
+      }
+    },
+    "requestBodies" : {
+      "UserArray" : {
+        "description" : "List of user object",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "required" : true
+      }
+    },
+    "securitySchemes" : {
+      "petstore_auth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}
