@@ -69,8 +69,8 @@ export const saveProperty = async (req) => {
   if(savedProperty.rows.length !== 0) return { error: 'The house already exists' };
 
   await pool.query(SAVE_PROPERTY, [property.price, property.state, property.city, property.address, property.type, property.image_url, property.owner, property.status, property.created_on]);
-  savedProperty = await pool.query(SELECT_PROPERTY, [property.type]);
-
+  savedProperty = await pool.query(`SELECT * FROM properties WHERE type = '${property.type}' AND address = '${property.address}'`);
+  
   return savedProperty.rows[0];
 }
 
