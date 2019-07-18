@@ -73,8 +73,8 @@ export const saveProperty = async (req) => {
   property.created_on = new Date().toLocaleString();
 
   await pool.query(CREATE_PROPERTY_TABLE);
-
-  let savedProperty = await pool.query(SELECT_PROPERTY, [property.type]);
+  
+  let savedProperty = await pool.query(`SELECT * FROM properties WHERE type = '${property.type}' AND address = '${property.address}'`);
   if(savedProperty.rows.length !== 0) return { error: 'The house already exists' };
 
   await pool.query(SAVE_PROPERTY, [property.price, property.state, property.city, property.address, property.type, property.image_url, property.owner, property.status, property.created_on]);
