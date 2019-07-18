@@ -31,7 +31,7 @@ export const getPropertyById = async (req, res) => {
 
 export const postProperty = async (req, res) => {
   const property = await saveProperty(req);
-  if (property.error) return res.status(400).send(results(400, ERROR, property));
+  if (property.error) return res.status(400).send(results(400, ERROR, property.error));
 
   res.status(201).send(results(201, SUCCESS, property));
 };
