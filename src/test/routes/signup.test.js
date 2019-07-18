@@ -69,5 +69,11 @@ describe('auth/signup', () => {
       expect(res.status).to.equal(200);
       expect(decoded).to.have.property('is_admin');
     });
+
+    it('should return 400 if signup method is incorrect', async () => {
+      const res = await request(server).get('/api/v1/auth/signup').send(user);
+
+      expect(res.status).to.equal(400);
+    });
   });
 });

@@ -11,8 +11,6 @@ router.post('/', [validateLogin, validateEmail, validatePassword], signin);
 
 router.use('*', (req, res) => {
     if (req.method !== 'POST') return res.status(400).send(results(400, ERROR, { 'message': `Invalid route, use POST instead of ${req.method}` }));
-
-    res.status(400).send(results(400, ERROR, { 'message': `Invalid route` }));
 });
 
 export default router;

@@ -42,15 +42,6 @@ export const strictValidate = (req) => {
   else {
     if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' };
   } 
-
-
-  if(req.body.type) {
-    for(let property of properties) {
-      if(property.type == req.body.type) {
-        return { error: 'the house already exits' };
-      } 
-    }
-  }
 }
 
 export const validateUpdate = (req) => {
