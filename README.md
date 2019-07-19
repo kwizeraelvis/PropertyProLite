@@ -30,18 +30,17 @@ Property Pro Lite is a platform to buy and sell properties across the world.
 - Javascript
 
 # Api Endpoints
-Method|End point | Action
------------|----------|--------------|------
-- POST   | /auth/signup                                |  - Create user account 
-- POST   | /auth/signin                                | - Login a user
-- POST   | /property                                   | - Create a property ad
-- PATCH  | /property/<:property-id>                    |- Update property data
-- PATCH  | /property/<:property-id>/sold               | - Mark a property as sold so users know it’s no longer available​.
-- DELETE | /property/<:property-id>                    |- Delete a property advert.
-- GET    | /property/<:property-id>/                   |- Get all property adverts
-- GET    | /property/me                                |- Get all your property adverts
-- GET    | /property/<:property-id>?type=​propertyType  | - Get all property advertisement offering a specific type of property. 
-- GET    | /property/<:property-id>  | - View a specific property advert. 
+
+- POST    /auth/signup                                  - Create user account 
+- POST    /auth/signin                               - Login a user
+- POST    /property                                  - Create a property ad
+- PATCH   /property/<:property-id>                   - Update property data
+- PATCH   /property/<:property-id>/sold              - Mark a property as sold so users know it’s no longer available​.
+- DELETE  /property/<:property-id>                   - Delete a property advert.
+- GET     /property/<:property-id>/                  - Get all property adverts
+- GET     /property/me                               - Get all your property adverts
+- GET     /property/<:property-id>?type=​propertyType - Get all property advertisement offering a specific type of property. 
+- GET     /property/<:property-id>   - View a specific property advert. 
 
 # API documentation 
 
