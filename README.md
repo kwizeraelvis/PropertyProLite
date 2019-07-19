@@ -2,19 +2,6 @@
 
 [![Build Status](https://travis-ci.org/amilykassim/PropertyProLite.svg?branch=develop)](https://travis-ci.org/amilykassim/PropertyProLite)       [![Coverage Status](https://coveralls.io/repos/github/amilykassim/PropertyProLite/badge.svg?branch=develop)](https://coveralls.io/github/amilykassim/PropertyProLite?branch=develop)       [![Maintainability](https://api.codeclimate.com/v1/badges/3dbe4a90345d8b162c9b/maintainability)](https://codeclimate.com/github/amilykassim/PropertyProLite/maintainability)
 
-
-# Table of contents
-
-- Projects overview
-- Features
-- Demo
-- Built with 
-- Api endpoints
-- Known Issues
-- Installation
-- Contributing
-- License
-
 # Project Overview
 
 Property Pro Lite is a platform to buy and sell properties across the world.
@@ -43,16 +30,23 @@ Property Pro Lite is a platform to buy and sell properties across the world.
 - Javascript
 
 # Api Endpoints
-- POST /auth/signup  - Create user account 
-- POST /auth/signin  - Login a user
-- POST  /property  - Create a property ad
-- PATCH  /property/<:property-id>  - Update property data
-- PATCH  /property/<:property-id>/sold  - Mark a property as sold so users know it’s no longer available​.
-- DELETE  /property/<:property-id>  - Delete a property advert.
-- GET  /property/<:property-id>/  - Get all property adverts
-- GET /property/me  - Get all your property adverts
-- GET  /property/<:property-id>?type=​propertyType  - Get all property advertisement offering a specific type of property. 
-- GET /property/<:property-id>  - View a specific property advert. 
+Method|End point | Action
+-----------|----------|--------------|------
+- POST   | /auth/signup                                |  - Create user account 
+- POST   | /auth/signin                                | - Login a user
+- POST   | /property                                   | - Create a property ad
+- PATCH  | /property/<:property-id>                    |- Update property data
+- PATCH  | /property/<:property-id>/sold               | - Mark a property as sold so users know it’s no longer available​.
+- DELETE | /property/<:property-id>                    |- Delete a property advert.
+- GET    | /property/<:property-id>/                   |- Get all property adverts
+- GET    | /property/me                                |- Get all your property adverts
+- GET    | /property/<:property-id>?type=​propertyType  | - Get all property advertisement offering a specific type of property. 
+- GET    | /property/<:property-id>  | - View a specific property advert. 
+
+# API documentation 
+
+ The documenation of the API can be found at : 
+ <a href="https://property-pro-lite-amily.herokuapp.com/api-docs"> https://property-pro-lite-amily.herokuapp.com/api-docs </a>
 
 # Known Issues
 API is on point, i.e all endpoints works fine, but 

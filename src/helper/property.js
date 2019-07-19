@@ -25,22 +25,24 @@ export const strictValidate = (req) => {
 
   for (let key of keys) {
     if (!['price', 'image_url'].includes(key)) {
-      if (!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
-      if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+      if (!regex.test(req.body[`${key}`])) return `${key} should not have special characters or numbers`;
+      if (!isNaN(req.body[`${key}`])) return `${key} should not be a number or special character`;
     }
   }
 
-  if(/\d/.test(req.body.state)) return { error: 'state should not contain numbers' }
-  if(/\d/.test(req.body.city)) return { error: 'city should not contain numbers' }
+  if(/\d/.test(req.body.state)) return 'state should not contain numbers or special characters';
+  if(/\d/.test(req.body.city)) return 'city should not contain numbers or special characters';
 
+  if(req.body.price > 500000) 
+      return 'price should be less than 500,000 thousand dollars';
 
   if (req.update) {
     if(req.body.image_url) {
-      if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' }; 
+      if (!isUrl(req.body.image_url)) return 'the url is invalid'; 
     }
   }
   else {
-    if (!isUrl(req.body.image_url)) return { error: 'the url is invalid' };
+    if (!isUrl(req.body.image_url)) return 'the url is invalid';
   } 
 }
 

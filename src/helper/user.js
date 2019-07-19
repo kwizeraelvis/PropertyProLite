@@ -29,13 +29,13 @@ export const strictValidate = (req) => {
 
   for (let key of keys) {
     if (!['email', 'password', 'phone_number', 'is_admin'].includes(key)) {
-      if (!regex.test(req.body[`${key}`])) return { error: `${key} should not have special characters` }
-      if (!isNaN(req.body[`${key}`])) return { error: `${key} should not be a number` };
+      if (!regex.test(req.body[`${key}`])) return `${key} should not have/be special characters`;
+      if (!isNaN(req.body[`${key}`])) return `${key} should not be a number, empty spaces or special characters`;
     }
   }
 
   if(req.body.phone_number.length < 10 || req.body.phone_number.length > 15) 
-      return { error: 'phone number should be greater than 10 or less than 15' };
+      return 'phone number should be greater than 10 or less than 15 numbers';
 }
 
 export const validateLogin = (req) => {
