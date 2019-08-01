@@ -17,10 +17,9 @@ backBtn.addEventListener("click", goToLandingPage);
 
 
 async function goToHomepage() {
-    let res;
     loadingSpinner.style.display = "block";
 
-    res = await postRequest('https://property-pro-lite-amily.herokuapp.com/api/v1/auth/signin', { email: email.value, password: password.value });
+    const res = await postRequest('https://property-pro-lite-amily.herokuapp.com/api/v1/auth/signin', { email: email.value, password: password.value });
 
     if (res.status === 400) {
         loadingSpinner.style.display = 'none';

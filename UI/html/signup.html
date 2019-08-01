@@ -34,13 +34,20 @@
             <h1 class="login-title">Property Pro Lite!</h1>
             <h4 class="login-mini-title">Where Magic Happens</h4>
             <div class="login-field-container">
-                <input class="input-field" type="text" placeholder="Username...">
-                <input class="input-field" type="text" placeholder="Email...">
-                <input class="input-field" type="text" placeholder="Password...">
-                <input class="input-field" type="text" placeholder="Confirm password...">
+                <input id="first-name" class="input-field" type="text" placeholder="First name...">
+                <input id="last-name" class="input-field" type="text" placeholder="Last name...">
+                <input id="address" class="input-field" type="text" placeholder="Address...">
+                <input id="phone-number" class="input-field" type="text" placeholder="Phone number...">
+                <input id="email" class="input-field" type="text" placeholder="Email...">
+                <input id="password" class="input-field" type="password" placeholder="Password...">
+                <input id="confirm-password" class="input-field" type="password" placeholder="Confirm password...">
                 <div>
                     <button id="back" class="mini-buttons resetform">Back</button>
                     <button id="create" class="mini-buttons resetform">Proceed</button>
+                </div>
+
+                <div>
+                    <span id="loading-spinner" class="loader"><span class="loader-inner"></span></span>
                 </div>
             </div>
         </div>
