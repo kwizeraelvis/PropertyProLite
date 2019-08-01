@@ -20,7 +20,7 @@ async function goToHomepage() {
     let res;
     loadingSpinner.style.display = "block";
 
-    res = await postRequest('http://localhost:3000/api/v1/auth/signin/', { email: email.value, password: password.value });
+    res = await postRequest('https://property-pro-lite-amily.herokuapp.com/api/v1/auth/signin', { email: email.value, password: password.value });
 
     if (res.status === 400) {
         loadingSpinner.style.display = 'none';
