@@ -3,9 +3,12 @@ import logging from './startup/logging';
 import config from './startup/config';
 import routes from './startup/routes';
 import prod from './startup/prod';
-
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors());
+
 logging();
 config();
 routes(app);
