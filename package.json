@@ -21,7 +21,7 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/runtime": "^7.4.5",
     "bcrypt": "^3.0.6",
-    "cloudinary": "^1.14.0",
+    "cloudinary": "^1.22.0",
     "compression": "^1.7.4",
     "config": "^3.1.0",
     "cors": "^2.8.5",
